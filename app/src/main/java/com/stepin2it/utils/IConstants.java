@@ -8,8 +8,9 @@ public interface IConstants {
     String USER_NAME = "nishantuwindsor@gmail.com";
     String PASSWORD = "12345";
 
-    interface IBundle {
-        String BUNDLE_USER_NAME = "BUNDLE_USER_NAME";
+    interface IPreference {
+        String PREF_USER_NAME = "PREF_USER_NAME";
+        String PREF_NAME = "stepin2it";
     }
 }
 

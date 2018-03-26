@@ -5,9 +5,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 
+import com.stepin2it.utils.IConstants;
+import com.stepin2it.utils.PreferenceHelper;
+
 public class SplashScreenActivity extends AppCompatActivity {
     private static final int SPLASH_TIME_OUT = 3000;
-//
 //    private static final int SPLASH_TIME_OUT = 3000;
 
     @Override
@@ -29,12 +31,19 @@ public class SplashScreenActivity extends AppCompatActivity {
             public void run() {
                 // This method will be executed once the timer is over
                 // Start your app main activity
-                Intent loginIntent = new Intent(SplashScreenActivity.this, LoginActivity.class);
-                startActivity(loginIntent);
-
-                // close this activity
-                finish();
+                loginCheck();
             }
         }, SPLASH_TIME_OUT);
+    }
+
+    private void loginCheck() {
+        Intent loginIntent;
+        if (PreferenceHelper.getInstance(SplashScreenActivity.this).readString(IConstants.IPreference.PREF_USER_NAME) != null) {
+            loginIntent = new Intent(SplashScreenActivity.this, DashBoardActivity.class);
+        } else {
+            loginIntent = new Intent(SplashScreenActivity.this, LoginActivity.class);
+        }
+        startActivity(loginIntent);
+        finish();
     }
 }

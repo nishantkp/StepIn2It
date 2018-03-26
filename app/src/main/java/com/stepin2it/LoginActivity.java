@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.stepin2it.utils.IConstants;
+import com.stepin2it.utils.PreferenceHelper;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -52,8 +53,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void launchDashBoard() {
+        PreferenceHelper.getInstance(LoginActivity.this)
+                .writeString(IConstants.IPreference.PREF_USER_NAME, edtUserName.getText().toString().trim());
         Intent intent = new Intent(LoginActivity.this, DashBoardActivity.class);
-        intent.putExtra(IConstants.IBundle.BUNDLE_USER_NAME,edtUserName.getText().toString().trim());
         startActivity(intent);
     }
 }
