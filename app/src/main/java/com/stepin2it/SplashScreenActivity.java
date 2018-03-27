@@ -38,7 +38,7 @@ public class SplashScreenActivity extends AppCompatActivity {
 
     private void loginCheck() {
         Intent loginIntent;
-        if (PreferenceHelper.getInstance(SplashScreenActivity.this).readString(IConstants.IPreference.PREF_USER_NAME) != null) {
+        if (PreferenceHelper.getInstance(SplashScreenActivity.this).readString(IConstants.IPreference.PREF_TOKEN) != null) {
             loginIntent = new Intent(SplashScreenActivity.this, DashBoardActivity.class);
         } else {
             loginIntent = new Intent(SplashScreenActivity.this, LoginActivity.class);

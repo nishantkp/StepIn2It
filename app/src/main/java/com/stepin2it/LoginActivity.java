@@ -1,6 +1,8 @@
 package com.stepin2it;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -8,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.stepin2it.utils.IConstants;
+import com.stepin2it.utils.NetworkUtils;
 import com.stepin2it.utils.PreferenceHelper;
 
 import butterknife.BindView;
@@ -32,7 +35,8 @@ public class LoginActivity extends AppCompatActivity {
     @OnClick(R.id.btn_login)
     void onLoginButtonClick() {
         if (validateLogin()) {
-            launchDashBoard();
+            TokenAsyncTask networkAsyncTask = new TokenAsyncTask();
+            networkAsyncTask.execute();
         }
     }
 
@@ -57,5 +61,24 @@ public class LoginActivity extends AppCompatActivity {
                 .writeString(IConstants.IPreference.PREF_USER_NAME, edtUserName.getText().toString().trim());
         Intent intent = new Intent(LoginActivity.this, DashBoardActivity.class);
         startActivity(intent);
+    }
+
+    /**
+     * AsyncTask for making network calls to generate token
+     */
+    @SuppressLint("StaticFieldLeak")
+    private class TokenAsyncTask extends AsyncTask<Void, Void, String> {
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            return NetworkUtils.getTokenFromReqres();
+        }
+
+        @Override
+        protected void onPostExecute(String tokenString) {
+            PreferenceHelper.getInstance(LoginActivity.this)
+                    .writeString(IConstants.IPreference.PREF_TOKEN, tokenString);
+            launchDashBoard();
+        }
     }
 }
