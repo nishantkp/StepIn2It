@@ -2,6 +2,9 @@ package com.stepin2it.utils;
 
 import android.util.Log;
 
+import com.stepin2it.ProductInfo;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -10,9 +13,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -145,5 +151,131 @@ public class NetworkUtils {
             Log.e(LOG_TAG, "Error creating a JSON object", e);
         }
         return token;
+    }
+
+
+    /**
+     * This method is called to get the product information from url string
+     * in List<ProductInfo> format
+     *
+     * @param urlString url string from which we want to get our product information
+     * @return product information in List<ProductInfo> format
+     */
+    public static List<ProductInfo> fetchProductInfoFromUrl(String urlString) {
+        if (urlString == null) {
+            return null;
+        }
+        URL url = generateUrl(urlString);
+        String jsonResponse = null;
+        try {
+            jsonResponse = getJsonFromHttpRequest(url);
+        } catch (IOException e) {
+            Log.i(LOG_TAG, "Exception caused by closing an InputStream", e);
+        }
+        if (jsonResponse != null) {
+            return extractProductInfoFromJsonResponse(jsonResponse);
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * This method is called to get the JSON response in string format from URL object
+     * by creating HTTP connection
+     *
+     * @param url URL object
+     * @return JSON response string
+     * @throws IOException Exception in method signature caused by closing an InputStream
+     */
+    private static String getJsonFromHttpRequest(URL url) throws IOException {
+        HttpURLConnection httpURLConnection = null;
+        InputStream inputStream = null;
+        String jsonResponse = null;
+        try {
+            httpURLConnection = (HttpURLConnection) url.openConnection();
+            httpURLConnection.setRequestMethod("GET");
+            httpURLConnection.setReadTimeout(IConstants.IJsonServer.READ_TIME_OUT);
+            httpURLConnection.setConnectTimeout(IConstants.IJsonServer.CONNECT_TIME_OUT);
+            httpURLConnection.connect();
+            if (httpURLConnection.getResponseCode() == IConstants.IJsonServer.SUCCESS_RESPONSE_CODE) {
+                inputStream = httpURLConnection.getInputStream();
+                jsonResponse = readDataFromInputStream(inputStream);
+            } else {
+                // If received any other response(i.e 400) code return null JSON response
+                Log.i(LOG_TAG, "Error response code : " + httpURLConnection.getResponseCode());
+                jsonResponse = null;
+            }
+
+        } catch (IOException e) {
+            Log.e(LOG_TAG, "Error creating a url connection", e);
+        } finally {
+            if (httpURLConnection != null) {
+                httpURLConnection.disconnect();
+            }
+            if (inputStream != null) {
+                // Closing an inputStream can throw IOException, which why getJsonFromHttpRequest
+                // method signature specifies, throws IOException
+                inputStream.close();
+            }
+        }
+        return jsonResponse;
+    }
+
+    /**
+     * This method is used to extract the features of JSON response
+     *
+     * @param jsonResponse JSON response in string format
+     * @return List<ProductInfo> object which contains detail information about product
+     */
+    private static List<ProductInfo> extractProductInfoFromJsonResponse(String jsonResponse) {
+
+        List<ProductInfo> productInfoList = new ArrayList<>();
+
+        try {
+            JSONObject productObject = new JSONObject(jsonResponse);
+            if (productObject.has(IConstants.IJsonServer.KEY_JSON_PRODUCTS)) {
+                JSONArray productsArray = productObject.getJSONArray(IConstants.IJsonServer.KEY_JSON_PRODUCTS);
+                for (int i = 0; i < productsArray.length(); i++) {
+                    JSONObject productDetail = productsArray.getJSONObject(i);
+
+                    // Get the name of product if "name" field is present
+                    String productName = null;
+                    if (productDetail.has(IConstants.IJsonServer.KEY_JSON_NAME)) {
+                        productName = productDetail.getString(IConstants.IJsonServer.KEY_JSON_NAME);
+                    }
+
+                    // Get the description of product if "description" field is present
+                    String productDescription = null;
+                    if (productDetail.has(IConstants.IJsonServer.KEY_JSON_DESCRIPTION)) {
+                        productDescription = productDetail.getString(IConstants.IJsonServer.KEY_JSON_DESCRIPTION);
+                    }
+
+                    // Get the image-url of product if "image" field is present
+                    String productImageUrl = null;
+                    if (productDetail.has(IConstants.IJsonServer.KEY_JSON_IMAGE)) {
+                        productImageUrl = productDetail.getString(IConstants.IJsonServer.KEY_JSON_IMAGE);
+                    }
+
+                    // Get the phone of product if "phone" field is present
+                    String productPhone = null;
+                    if (productDetail.has(IConstants.IJsonServer.KEY_JSON_PHONE)) {
+                        productPhone = productDetail.getString(IConstants.IJsonServer.KEY_JSON_PHONE);
+                    }
+
+                    // Get the web-url of product if "web" field is present
+                    String productWebUrl = null;
+                    if (productDetail.has(IConstants.IJsonServer.KEY_JSON_WEB)) {
+                        productWebUrl = productDetail.getString(IConstants.IJsonServer.KEY_JSON_WEB);
+                    }
+
+                    productInfoList.add(new ProductInfo(productName, productDescription
+                            , productImageUrl, productPhone, productWebUrl));
+                }
+            }
+        } catch (JSONException e) {
+            Log.i(LOG_TAG, "Error creating a JSON object", e);
+        }
+        Log.i(LOG_TAG, "JSON response : " + jsonResponse);
+        return productInfoList;
     }
 }

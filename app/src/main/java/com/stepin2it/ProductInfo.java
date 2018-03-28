@@ -13,7 +13,7 @@ public class ProductInfo {
     private String productPhone;
     private String productWebUrl;
 
-    ProductInfo(String productName, String productDescription, String productImageUrl
+    public ProductInfo(String productName, String productDescription, String productImageUrl
             , String productPhone, String productWebUrl) {
 
         this.productName = productName;
