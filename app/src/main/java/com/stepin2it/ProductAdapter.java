@@ -1,4 +1,4 @@
-package com.stepin2it.utils;
+package com.stepin2it;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -9,8 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
-import com.stepin2it.ProductInfo;
-import com.stepin2it.R;
 
 import java.util.List;
 

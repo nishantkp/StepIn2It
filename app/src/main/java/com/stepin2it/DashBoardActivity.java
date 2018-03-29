@@ -11,7 +11,6 @@ import android.support.v7.widget.RecyclerView;
 
 import com.stepin2it.utils.IConstants;
 import com.stepin2it.utils.NetworkUtils;
-import com.stepin2it.utils.ProductAdapter;
 
 import java.util.List;
 
