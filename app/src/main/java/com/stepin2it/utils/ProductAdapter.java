@@ -5,8 +5,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.stepin2it.ProductInfo;
 import com.stepin2it.R;
 
@@ -41,10 +43,15 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         // Retrieve the information from object
         String name = productInfo.getProductName();
         String description = productInfo.getProductDescription();
+        String imageUrl = productInfo.getProductImageUrl();
 
         // Set the text to appropriate field
         holder.txtProductName.setText(name);
         holder.txtProductDescription.setText(description);
+
+        // Download image from web and display it in appropriate ImageView
+        // with the help of Picasso library
+        Picasso.get().load(imageUrl).into(holder.imgProductImage);
     }
 
     // return the size of data set
@@ -75,6 +82,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         TextView txtProductName;
         // @BindView(R.id.txt_product_description)
         TextView txtProductDescription;
+        ImageView imgProductImage;
 
         ProductViewHolder(View itemView) {
             super(itemView);
@@ -82,6 +90,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             //ButterKnife.bind(mContext, itemView);
             txtProductName = itemView.findViewById(R.id.txt_product_name);
             txtProductDescription = itemView.findViewById(R.id.txt_product_description);
+            imgProductImage = itemView.findViewById(R.id.img_product_image);
         }
     }
 }
