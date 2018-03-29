@@ -27,4 +27,14 @@
         app:layout_constraintStart_toStartOf="@+id/txt_product_name"
         app:layout_constraintTop_toBottomOf="@+id/txt_product_name"
         tools:text="Product description" />
+
+    <ImageView
+        android:id="@+id/img_divider_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_product_description"
+        app:srcCompat="@android:color/darker_gray" />
 </android.support.constraint.ConstraintLayout>
