@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Toast;
 
 import com.stepin2it.utils.IConstants;
 import com.stepin2it.utils.NetworkUtils;
@@ -15,13 +16,15 @@ import com.stepin2it.utils.NetworkUtils;
 import java.util.List;
 
 public class DashBoardActivity extends AppCompatActivity
-        implements LoaderManager.LoaderCallbacks<List<ProductInfo>> {
+        implements LoaderManager.LoaderCallbacks<List<ProductInfo>>
+        , ProductAdapter.IProductAdapterClickHandler {
 
     // Loader ID
     private static final int PRODUCT_LIST_LOADER_ID = 456;
     private RecyclerView mRecyclerView;
     private ProductAdapter mProductAdapter;
     private int mPosition = RecyclerView.NO_POSITION;
+    private Toast mToast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +44,8 @@ public class DashBoardActivity extends AppCompatActivity
          */
         mRecyclerView.setHasFixedSize(true);
 
-        mProductAdapter = new ProductAdapter(DashBoardActivity.this, null);
+        mProductAdapter = new ProductAdapter(DashBoardActivity.this
+                , DashBoardActivity.this, null);
         mRecyclerView.setAdapter(mProductAdapter);
         // Initialize loader
         getLoaderManager().initLoader(PRODUCT_LIST_LOADER_ID, null, DashBoardActivity.this);
@@ -93,5 +97,20 @@ public class DashBoardActivity extends AppCompatActivity
     public void onLoaderReset(Loader<List<ProductInfo>> loader) {
         // Now loader's data is invalid, we have to clear adapter that is displaying data
         mProductAdapter.swapData(null);
+    }
+
+    /**
+     * Implement onItemClick method of IProductAdapterClickHandler interface to get the position of
+     * clicked item
+     *
+     * @param itemPosition position of item in list
+     */
+    @Override
+    public void onItemClick(int itemPosition) {
+        if (mToast != null) {
+            mToast.cancel();
+        }
+        mToast = Toast.makeText(DashBoardActivity.this, "Item Clicked : " + itemPosition, Toast.LENGTH_SHORT);
+        mToast.show();
     }
 }

@@ -20,10 +20,17 @@ import java.util.List;
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
     private Context mContext;
     private List<ProductInfo> mProductInfoList;
+    private IProductAdapterClickHandler mClickHandler;
 
-    public ProductAdapter(Context context, List<ProductInfo> productInfoList) {
+    interface IProductAdapterClickHandler {
+        void onItemClick(int itemPosition);
+    }
+
+    public ProductAdapter(Context context, IProductAdapterClickHandler clickHandler
+            , List<ProductInfo> productInfoList) {
         mContext = context;
         mProductInfoList = productInfoList;
+        mClickHandler = clickHandler;
     }
 
     // creates new view
@@ -73,7 +80,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     }
 
     // View holder class
-    class ProductViewHolder extends RecyclerView.ViewHolder {
+    class ProductViewHolder extends RecyclerView.ViewHolder
+            implements View.OnClickListener {
 
         // Use ButterKnife library to bind views
         //  @BindView(R.id.txt_product_name)
@@ -89,6 +97,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             txtProductName = itemView.findViewById(R.id.txt_product_name);
             txtProductDescription = itemView.findViewById(R.id.txt_product_description);
             imgProductImage = itemView.findViewById(R.id.img_product_image);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            int itemPosition = getAdapterPosition();
+            mClickHandler.onItemClick(itemPosition);
         }
     }
 }
