@@ -22,10 +22,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     private List<ProductInfo> mProductInfoList;
     private IProductAdapterClickHandler mClickHandler;
 
-    interface IProductAdapterClickHandler {
-        void onItemClick(int itemPosition);
-    }
-
     public ProductAdapter(Context context, IProductAdapterClickHandler clickHandler
             , List<ProductInfo> productInfoList) {
         mContext = context;
@@ -79,6 +75,15 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         notifyDataSetChanged();
     }
 
+    /*
+     * An on-click handler that we've defined to make it easy for an Activity to interface with
+     * our RecyclerView
+     */
+    interface IProductAdapterClickHandler {
+        //The interface that receives onClick messages.
+        void onItemClick(String urlString);
+    }
+
     // View holder class
     class ProductViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener {
@@ -100,10 +105,17 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             itemView.setOnClickListener(this);
         }
 
+        /**
+         * This gets called by the child views during a click.
+         *
+         * @param view The View that was clicked
+         */
         @Override
         public void onClick(View view) {
             int itemPosition = getAdapterPosition();
-            mClickHandler.onItemClick(itemPosition);
+            // Get the web url from the item that was clicked
+            String webUrl = mProductInfoList.get(itemPosition).getProductWebUrl();
+            mClickHandler.onItemClick(webUrl);
         }
     }
 }

@@ -3,12 +3,13 @@ package com.stepin2it;
 import android.annotation.SuppressLint;
 import android.app.LoaderManager;
 import android.content.AsyncTaskLoader;
+import android.content.Intent;
 import android.content.Loader;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.Toast;
 
 import com.stepin2it.utils.IConstants;
 import com.stepin2it.utils.NetworkUtils;
@@ -24,7 +25,6 @@ public class DashBoardActivity extends AppCompatActivity
     private RecyclerView mRecyclerView;
     private ProductAdapter mProductAdapter;
     private int mPosition = RecyclerView.NO_POSITION;
-    private Toast mToast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,16 +101,16 @@ public class DashBoardActivity extends AppCompatActivity
 
     /**
      * Implement onItemClick method of IProductAdapterClickHandler interface to get the position of
-     * clicked item
+     * clicked item and start the web browser
      *
-     * @param itemPosition position of item in list
+     * @param urlString url of item which is clicked on
      */
     @Override
-    public void onItemClick(int itemPosition) {
-        if (mToast != null) {
-            mToast.cancel();
+    public void onItemClick(String urlString) {
+        Uri webPage = Uri.parse(urlString);
+        Intent intent = new Intent(Intent.ACTION_VIEW, webPage);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
         }
-        mToast = Toast.makeText(DashBoardActivity.this, "Item Clicked : " + itemPosition, Toast.LENGTH_SHORT);
-        mToast.show();
     }
 }
