@@ -1,49 +1,98 @@
 package com.stepin2it;
 
-import android.os.AsyncTask;
+import android.annotation.SuppressLint;
+import android.app.LoaderManager;
+import android.content.AsyncTaskLoader;
+import android.content.Loader;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.TextView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
 import com.stepin2it.utils.IConstants;
 import com.stepin2it.utils.NetworkUtils;
-import com.stepin2it.utils.PreferenceHelper;
+import com.stepin2it.utils.ProductAdapter;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
+public class DashBoardActivity extends AppCompatActivity
+        implements LoaderManager.LoaderCallbacks<List<ProductInfo>> {
 
-public class DashBoardActivity extends AppCompatActivity {
-    @BindView(R.id.txt_user_email_id)
-    TextView txtUserEmailId;
+    // Loader ID
+    private static final int PRODUCT_LIST_LOADER_ID = 456;
+    private RecyclerView mRecyclerView;
+    private ProductAdapter mProductAdapter;
+    private int mPosition = RecyclerView.NO_POSITION;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dash_board);
-        ButterKnife.bind(DashBoardActivity.this);
 
-        txtUserEmailId = findViewById(R.id.txt_user_email_id);
+        mRecyclerView = findViewById(R.id.rv_product_list);
 
-        String userName
-                = PreferenceHelper.getInstance(DashBoardActivity.this).readString(IConstants.IPreference.PREF_USER_NAME);
-        txtUserEmailId.setText(userName);
-        // Execute async task
-        new ProductList().execute(IConstants.IJsonServer.REQUEST_URL);
+        LinearLayoutManager layoutManager
+                = new LinearLayoutManager(
+                DashBoardActivity.this
+                , LinearLayoutManager.VERTICAL
+                , false);
+        mRecyclerView.setLayoutManager(layoutManager);
+        /* Use setHasFixedSize to improve performance,
+         * if you know the changes in content does not change layout size
+         */
+        mRecyclerView.setHasFixedSize(true);
+
+        mProductAdapter = new ProductAdapter(DashBoardActivity.this, null);
+        mRecyclerView.setAdapter(mProductAdapter);
+        // Initialize loader
+        getLoaderManager().initLoader(PRODUCT_LIST_LOADER_ID, null, DashBoardActivity.this);
     }
 
-    // ProductList class to perform network operation in background thread
-    private static class ProductList extends AsyncTask<String, Void, List<ProductInfo>> {
+    @SuppressLint("StaticFieldLeak")
+    @Override
+    public Loader<List<ProductInfo>> onCreateLoader(int loaderId, Bundle bundle) {
+        switch (loaderId) {
+            case PRODUCT_LIST_LOADER_ID:
+                return new AsyncTaskLoader<List<ProductInfo>>(DashBoardActivity.this) {
+                    @Override
+                    protected void onStartLoading() {
+                        forceLoad();
+                    }
 
-        @Override
-        protected List<ProductInfo> doInBackground(String... strings) {
-            return NetworkUtils.fetchProductInfoFromUrl(strings[0]);
+                    @Override
+                    public List<ProductInfo> loadInBackground() {
+                        return NetworkUtils.fetchProductInfoFromUrl(IConstants.IJsonServer.REQUEST_URL);
+                    }
+                };
+            default:
+                throw new RuntimeException("Loader Not Implemented: " + loaderId);
         }
+    }
 
-        @Override
-        protected void onPostExecute(List<ProductInfo> productInfos) {
-            super.onPostExecute(productInfos);
+    /**
+     * Called when loader has finished loading data
+     *
+     * @param loader          the loader that has finished
+     * @param productInfoList data generated ny loader
+     */
+    @Override
+    public void onLoadFinished(Loader<List<ProductInfo>> loader, List<ProductInfo> productInfoList) {
+        mProductAdapter.swapData(productInfoList);
+        if (mPosition == RecyclerView.NO_POSITION) {
+            mPosition = 0;
         }
+        mRecyclerView.smoothScrollToPosition(mPosition);
+    }
+
+    /**
+     * Called when previously created loader is being reset, thus making it's data invalid
+     * so application should remove any reference it has to it's loader data
+     *
+     * @param loader loader that being reset
+     */
+    @Override
+    public void onLoaderReset(Loader<List<ProductInfo>> loader) {
+        // Now loader's data is invalid, we have to clear adapter that is displaying data
+        mProductAdapter.swapData(null);
     }
 }
