@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">StepIn2It</string>
+    <string name="splash_screen_text">Welcome</string>
 </resources>

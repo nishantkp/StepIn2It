@@ -4,4 +4,8 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="listItemSelector">#F0F0F0</color>
+    <!-- app background color gradient -->
+    <color name="gradientStartColor">#303F9F</color>
+    <color name="gradientCenterColor">#3F51B5</color>
+    <color name="gradientEndColor">#9FA8DA</color>
 </resources>
