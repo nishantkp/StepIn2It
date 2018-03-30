@@ -8,4 +8,6 @@
     <color name="gradientStartColor">#303F9F</color>
     <color name="gradientCenterColor">#3F51B5</color>
     <color name="gradientEndColor">#9FA8DA</color>
+    <color name="primaryTextColor">#212121</color>
+    <color name="secondaryTextColor">#616161</color>
 </resources>
