@@ -11,4 +11,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <ProgressBar
+        android:id="@+id/pgb_dash_board"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:layout_gravity="center" />
 </FrameLayout>

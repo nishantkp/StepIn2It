@@ -10,11 +10,16 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.stepin2it.utils.IConstants;
 import com.stepin2it.utils.NetworkUtils;
 
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class DashBoardActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<List<ProductInfo>>
@@ -25,11 +30,17 @@ public class DashBoardActivity extends AppCompatActivity
     private RecyclerView mRecyclerView;
     private ProductAdapter mProductAdapter;
     private int mPosition = RecyclerView.NO_POSITION;
+    //Show progress bar while fetching data
+    @BindView(R.id.pgb_dash_board)
+    ProgressBar pgbDashBoard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dash_board);
+
+        // Bind view with butter knife library
+        ButterKnife.bind(DashBoardActivity.this);
 
         mRecyclerView = findViewById(R.id.rv_product_list);
 
@@ -59,6 +70,7 @@ public class DashBoardActivity extends AppCompatActivity
                 return new AsyncTaskLoader<List<ProductInfo>>(DashBoardActivity.this) {
                     @Override
                     protected void onStartLoading() {
+                        pgbDashBoard.setVisibility(View.VISIBLE);
                         forceLoad();
                     }
 
@@ -80,6 +92,7 @@ public class DashBoardActivity extends AppCompatActivity
      */
     @Override
     public void onLoadFinished(Loader<List<ProductInfo>> loader, List<ProductInfo> productInfoList) {
+        pgbDashBoard.setVisibility(View.GONE);
         mProductAdapter.swapData(productInfoList);
         if (mPosition == RecyclerView.NO_POSITION) {
             mPosition = 0;
