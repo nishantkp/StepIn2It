@@ -47,12 +47,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         String imageUrl = productInfo.getProductImageUrl();
 
         // Set the text to appropriate field
-        holder.txtProductName.setText(name);
-        holder.txtProductDescription.setText(description);
+        holder.txvProductName.setText(name);
+        holder.txvProductDescription.setText(description);
 
         // Download image from web and display it in appropriate ImageView
         // with the help of Picasso library
-        Picasso.get().load(imageUrl).into(holder.imgProductImage);
+        Picasso.get().load(imageUrl).into(holder.imvProductImage);
     }
 
     // return the size of data set
@@ -90,18 +90,18 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
         // Use ButterKnife library to bind views
         //  @BindView(R.id.txt_product_name)
-        TextView txtProductName;
+        TextView txvProductName;
         // @BindView(R.id.txt_product_description)
-        TextView txtProductDescription;
-        ImageView imgProductImage;
+        TextView txvProductDescription;
+        ImageView imvProductImage;
 
         ProductViewHolder(View itemView) {
             super(itemView);
             // Bind the butter knife library with layout
             //ButterKnife.bind(mContext, itemView);
-            txtProductName = itemView.findViewById(R.id.txt_product_name);
-            txtProductDescription = itemView.findViewById(R.id.txt_product_description);
-            imgProductImage = itemView.findViewById(R.id.img_product_image);
+            txvProductName = itemView.findViewById(R.id.txv_product_name);
+            txvProductDescription = itemView.findViewById(R.id.txv_product_description);
+            imvProductImage = itemView.findViewById(R.id.imv_product_image);
             itemView.setOnClickListener(this);
         }
 
