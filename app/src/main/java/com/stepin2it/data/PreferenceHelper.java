@@ -30,4 +30,9 @@ public class PreferenceHelper {
     public String readString(String key) {
         return sSharedPreference.getString(key, null);
     }
+
+    // Clear all preferences when user clicks logout button
+    public void logout() {
+        sPreferenceEditor.clear().commit();
+    }
 }

@@ -37,7 +37,13 @@ public class SettingsActivity extends AppCompatActivity {
      */
     @OnClick(R.id.btn_settings_logout)
     public void btnSettingsLogout() {
+        // Remove all stores preferences
+        PreferenceHelper.getInstance(SettingsActivity.this).logout();
         Intent logoutIntent = new Intent(SettingsActivity.this, LoginActivity.class);
+        // Destroy all the previous activities
+        logoutIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(logoutIntent);
+        // Finish current activity
+        finish();
     }
 }

@@ -67,6 +67,7 @@ public class LoginActivity extends AppCompatActivity {
                 .writeString(IConstants.IPreference.PREF_USER_NAME, edtUserName.getText().toString().trim());
         Intent intent = new Intent(LoginActivity.this, DashBoardActivity.class);
         startActivity(intent);
+        finish();
     }
 
     /**
@@ -122,14 +123,5 @@ public class LoginActivity extends AppCompatActivity {
                 launchDashBoard();
             }
         }
-    }
-
-    /**
-     * When user clicks on back button from login activity,
-     * disable going back to {@link SettingsActivity}
-     */
-    @Override
-    public void onBackPressed() {
-        moveTaskToBack(true);
     }
 }
