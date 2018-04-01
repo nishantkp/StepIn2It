@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -79,7 +78,7 @@ public class DashBoardActivity extends BaseActivity
             txvEmptyView.setVisibility(View.GONE);
             getProductInfo();
             // Initialize loader
-        //    getLoaderManager().initLoader(PRODUCT_LIST_LOADER_ID, null, DashBoardActivity.this);
+            //    getLoaderManager().initLoader(PRODUCT_LIST_LOADER_ID, null, DashBoardActivity.this);
         } else {
             txvEmptyView.setVisibility(View.VISIBLE);
         }
@@ -166,12 +165,10 @@ public class DashBoardActivity extends BaseActivity
      * @param urlString url of item which is clicked on
      */
     @Override
-    public void onItemClick(String urlString) {
-        Uri webPage = Uri.parse(urlString);
-        Intent intent = new Intent(Intent.ACTION_VIEW, webPage);
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivity(intent);
-        }
+    public void onItemClick(String urlString, ProductInfo productInfo) {
+        Intent productDetailIntent = new Intent(DashBoardActivity.this, ProductDetailActivity.class);
+        productDetailIntent.putExtra(IConstants.KEY_PRODUCT_DETAIL_PARCELABLE, productInfo);
+        startActivity(productDetailIntent);
     }
 
     /**

@@ -1,5 +1,8 @@
 package com.stepin2it.ui.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -7,7 +10,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by Nishant on 3/26/2018.
  */
 
-public class ProductInfo {
+public class ProductInfo implements Parcelable {
 
     @SerializedName("name")
     private String productName;
@@ -71,4 +74,49 @@ public class ProductInfo {
     public WarehouseLocation getWarehouseLocation() {
         return warehouseLocation;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.productName);
+        dest.writeString(this.description);
+        dest.writeString(this.productImageUrl);
+        dest.writeString(this.productPhone);
+        dest.writeString(this.productWebUrl);
+        dest.writeString(this.price);
+        dest.writeStringArray(this.tags);
+        dest.writeParcelable(this.dimensions, flags);
+        dest.writeParcelable(this.warehouseLocation, flags);
+    }
+
+    public ProductInfo() {
+    }
+
+    protected ProductInfo(Parcel in) {
+        this.productName = in.readString();
+        this.description = in.readString();
+        this.productImageUrl = in.readString();
+        this.productPhone = in.readString();
+        this.productWebUrl = in.readString();
+        this.price = in.readString();
+        this.tags = in.createStringArray();
+        this.dimensions = in.readParcelable(Dimensions.class.getClassLoader());
+        this.warehouseLocation = in.readParcelable(WarehouseLocation.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<ProductInfo> CREATOR = new Parcelable.Creator<ProductInfo>() {
+        @Override
+        public ProductInfo createFromParcel(Parcel source) {
+            return new ProductInfo(source);
+        }
+
+        @Override
+        public ProductInfo[] newArray(int size) {
+            return new ProductInfo[size];
+        }
+    };
 }

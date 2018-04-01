@@ -8,6 +8,7 @@ public interface IConstants {
     String KEY_PRODUCT_IMAGE_INTENT = "KEY_PRODUCT_IMAGE_INTENT";
     String PRODUCT_IMAGE_FILE_NAME = "PRODUCT_IMAGE_FILE_NAME";
     String KEY_PRODUCT_IMAGE_URL = "KEY_PRODUCT_IMAGE_URL";
+    String KEY_PRODUCT_DETAIL_PARCELABLE = "KEY_PRODUCT_DETAIL_PARCELABLE";
 
     // Login detail information for https://reqres.in
     interface IReqres {

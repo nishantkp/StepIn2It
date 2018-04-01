@@ -95,7 +95,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
      */
     public interface IProductAdapterClickHandler {
         //The interface that receives onClick messages.
-        void onItemClick(String urlString);
+        void onItemClick(String urlString, ProductInfo productInfo);
 
         void onImageClick(int index, View view, ProductInfo productInfo);
     }
@@ -129,7 +129,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             int itemPosition = getAdapterPosition();
             // Get the web url from the item that was clicked
             String webUrl = mProductInfoList.get(itemPosition).getProductWebUrl();
-            mClickHandler.onItemClick(webUrl);
+            mClickHandler.onItemClick(webUrl, mProductInfoList.get(itemPosition));
         }
     }
 }
