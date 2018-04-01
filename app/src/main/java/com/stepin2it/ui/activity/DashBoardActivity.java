@@ -91,6 +91,7 @@ public class DashBoardActivity extends BaseActivity
             @Override
             public void onResponse(Call<List<ProductInfo>> call, Response<List<ProductInfo>> response) {
                 pgbDashBoard.setVisibility(View.GONE);
+                mDatabaseHelper.insertProducts(response.body());
                 mProductAdapter.swapData(response.body());
             }
 
