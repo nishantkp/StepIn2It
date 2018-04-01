@@ -13,6 +13,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -199,5 +201,27 @@ public class DashBoardActivity extends AppCompatActivity
             fileName = null;
         }
         return fileName;
+    }
+
+    // Create a menu whenever the activity is created
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.settings_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int menuItemId = item.getItemId();
+        switch (menuItemId) {
+            case R.id.action_settings:
+                /* When user clicks on Settings option, launch {@link SettingsActivity}
+                 */
+                Intent settingsIntent = new Intent(DashBoardActivity.this, SettingsActivity.class);
+                startActivity(settingsIntent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

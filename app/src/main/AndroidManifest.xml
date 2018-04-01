@@ -28,7 +28,15 @@
             android:name=".ui.activity.LoginActivity"
             android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity android:name=".ui.activity.DashBoardActivity" />
-        <activity android:name=".ui.activity.ProductImageActivity"></activity>
+        <activity android:name=".ui.activity.ProductImageActivity" />
+        <activity
+            android:name=".ui.activity.SettingsActivity"
+            android:label="@string/settings_label"
+            android:parentActivityName=".ui.activity.DashBoardActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.stepin2it.ui.activity.DashBoardActivity" />
+        </activity>
     </application>
 
 </manifest>
