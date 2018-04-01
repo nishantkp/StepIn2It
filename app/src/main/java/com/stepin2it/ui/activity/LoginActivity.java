@@ -87,7 +87,7 @@ public class LoginActivity extends AppCompatActivity {
             progressDialog = new ProgressDialog(
                     this.context);
             progressDialog.setIndeterminate(true);
-            progressDialog.setMessage("Progress = 0");
+            progressDialog.setMessage("Loading data...");
             progressDialog.show();
         }
 
@@ -95,16 +95,15 @@ public class LoginActivity extends AppCompatActivity {
         protected String doInBackground(String... strings) {
             String userName = strings[0];
             String password = strings[1];
-            String token = NetworkUtils.getTokenFromReqres(userName, password);
-            for (int i = 0; i < 10; i++) {
-                try {
-                    Thread.sleep(1000);
-                    publishProgress(i);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-            return token;
+            //            for (int i = 0; i < 10; i++) {
+//                try {
+//                    Thread.sleep(1000);
+//                    publishProgress(i);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+            return NetworkUtils.getTokenFromReqres(userName, password);
         }
 
         @Override
