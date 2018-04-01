@@ -3,4 +3,6 @@
     <string name="splash_screen_text">Welcome</string>
     <string name="enable_your_internet_connection">Enable your internet connection!</string>
     <string name="settings_label">Settings</string>
+    <string name="logout_label">Logout</string>
+    <string name="user_name_label">Username</string>
 </resources>

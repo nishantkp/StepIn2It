@@ -123,4 +123,13 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
     }
+
+    /**
+     * When user clicks on back button from login activity,
+     * disable going back to {@link SettingsActivity}
+     */
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
+    }
 }
