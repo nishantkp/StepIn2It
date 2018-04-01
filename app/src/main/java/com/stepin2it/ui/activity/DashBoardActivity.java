@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -166,14 +165,16 @@ public class DashBoardActivity extends AppCompatActivity
      * @param view  list item view which is clicked on (i.e ImageView in this context)
      */
     @Override
-    public void onImageClick(int index, View view) {
+    public void onImageClick(int index, View view, ProductInfo productInfo) {
         if (view instanceof ImageView) {
-            BitmapDrawable bitmapDrawable = ((BitmapDrawable) ((ImageView) view).getDrawable());
-            Bitmap bitmap = bitmapDrawable.getBitmap();
+            String url = productInfo.getProductImageUrl();
+            // BitmapDrawable bitmapDrawable = ((BitmapDrawable) ((ImageView) view).getDrawable());
+            // Bitmap bitmap = bitmapDrawable.getBitmap();
             // write image info file system
-            String fileName = writeBitmapIntoFile(bitmap);
+            // String fileName = writeBitmapIntoFile(bitmap);
             Intent imageFileNameIntent = new Intent(DashBoardActivity.this, ProductImageActivity.class);
-            imageFileNameIntent.putExtra(IConstants.KEY_PRODUCT_IMAGE_INTENT, fileName);
+            // imageFileNameIntent.putExtra(IConstants.KEY_PRODUCT_IMAGE_INTENT, fileName);
+            imageFileNameIntent.putExtra(IConstants.KEY_PRODUCT_IMAGE_URL, url);
             startActivity(imageFileNameIntent);
         }
     }

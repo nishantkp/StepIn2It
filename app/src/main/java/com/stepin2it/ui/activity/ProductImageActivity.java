@@ -1,20 +1,16 @@
 package com.stepin2it.ui.activity;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.stepin2it.R;
 import com.stepin2it.utils.IConstants;
 
-import java.io.FileNotFoundException;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import timber.log.Timber;
 
 public class ProductImageActivity extends AppCompatActivity {
 
@@ -33,14 +29,18 @@ public class ProductImageActivity extends AppCompatActivity {
         and then get the image form file system and set the ImageView
         */
         Intent intent = getIntent();
-        if (intent.hasExtra(IConstants.KEY_PRODUCT_IMAGE_INTENT)) {
-            String fileName = intent.getStringExtra(IConstants.KEY_PRODUCT_IMAGE_INTENT);
-            try {
-                Bitmap bitmap = BitmapFactory.decodeStream(this.openFileInput(fileName));
-                imvProductImageView.setImageBitmap(bitmap);
-            } catch (FileNotFoundException e) {
-                Timber.e(e, "File not found : %s", fileName);
-            }
+        if (intent.hasExtra(IConstants.KEY_PRODUCT_IMAGE_URL)) {
+//            String fileName = intent.getStringExtra(IConstants.KEY_PRODUCT_IMAGE_INTENT);
+//            try {
+//                Bitmap bitmap = BitmapFactory.decodeStream(this.openFileInput(fileName));
+//                imvProductImageView.setImageBitmap(bitmap);
+//            } catch (FileNotFoundException e) {
+//                Timber.e(e, "File not found : %s", fileName);
+//            }
+            // Use glide to download image from url and display it into ImageVew
+            Glide.with(ProductImageActivity.this)
+                    .load(intent.getStringExtra(IConstants.KEY_PRODUCT_IMAGE_URL))
+                    .into(imvProductImageView);
         }
     }
 }
