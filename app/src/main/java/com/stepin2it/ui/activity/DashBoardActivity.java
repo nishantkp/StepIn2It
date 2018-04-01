@@ -9,7 +9,6 @@ import android.content.Loader;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -32,9 +31,12 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import timber.log.Timber;
 
-public class DashBoardActivity extends AppCompatActivity
+public class DashBoardActivity extends BaseActivity
         implements LoaderManager.LoaderCallbacks<List<ProductInfo>>,
         ProductAdapter.IProductAdapterClickHandler {
 
@@ -75,11 +77,29 @@ public class DashBoardActivity extends AppCompatActivity
         mRecyclerView.setAdapter(mProductAdapter);
         if (NetworkUtils.isNetworkAvailable(DashBoardActivity.this)) {
             txvEmptyView.setVisibility(View.GONE);
+            getProductInfo();
             // Initialize loader
-            getLoaderManager().initLoader(PRODUCT_LIST_LOADER_ID, null, DashBoardActivity.this);
+        //    getLoaderManager().initLoader(PRODUCT_LIST_LOADER_ID, null, DashBoardActivity.this);
         } else {
             txvEmptyView.setVisibility(View.VISIBLE);
         }
+    }
+
+    private void getProductInfo() {
+        pgbDashBoard.setVisibility(View.VISIBLE);
+        Call<List<ProductInfo>> call = mApiInterface.getProductInfo();
+        call.enqueue(new Callback<List<ProductInfo>>() {
+            @Override
+            public void onResponse(Call<List<ProductInfo>> call, Response<List<ProductInfo>> response) {
+                pgbDashBoard.setVisibility(View.GONE);
+                mProductAdapter.swapData(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<ProductInfo>> call, Throwable t) {
+                pgbDashBoard.setVisibility(View.GONE);
+            }
+        });
     }
 
     @SuppressLint("StaticFieldLeak")

@@ -13,6 +13,7 @@ public interface IConstants {
     interface IReqres {
         int SUCCESS_RESPONSE_CODE = 201;
         String REQUEST_URL_STRING = "https://reqres.in/api/register";
+        String BASE_URL = "https://reqres.in/";
         String KEY_JSON_EMAIL = "email";
         String KEY_JSON_PASSWORD = "password";
         String KEY_JSON_TOKEN = "token";
@@ -27,7 +28,8 @@ public interface IConstants {
     // Fake Online REST server : https://my-json-server.typicode.com/
     // Get json data from devStepin2IT github account
     interface IJsonServer {
-        String REQUEST_URL = "http://my-json-server.typicode.com/devStepin2IT/apitest/productData";
+        String REQUEST_URL = "http://my-json-server.typicode.com/nishantkp/apitest/productData";
+        String BASE_URL = "https://my-json-server.typicode.com/";
         int READ_TIME_OUT = 10000;
         int CONNECT_TIME_OUT = 15000;
         int SUCCESS_RESPONSE_CODE = 200;

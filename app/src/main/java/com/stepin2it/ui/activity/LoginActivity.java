@@ -6,21 +6,25 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.stepin2it.R;
-import com.stepin2it.utils.IConstants;
 import com.stepin2it.data.NetworkUtils;
 import com.stepin2it.data.PreferenceHelper;
+import com.stepin2it.data.models.RqLogin;
+import com.stepin2it.data.models.RsToken;
+import com.stepin2it.utils.IConstants;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
     private static final String TAG = LoginActivity.class.getSimpleName();
     @BindView(R.id.edt_user_name)
     EditText edtUserName;
@@ -39,14 +43,32 @@ public class LoginActivity extends AppCompatActivity {
     void onLoginButtonClick() {
         if (validateLogin()) {
             if (NetworkUtils.isNetworkAvailable(LoginActivity.this)) {
-                TokenAsyncTask networkAsyncTask = new TokenAsyncTask(LoginActivity.this);
-                networkAsyncTask
-                        .execute(edtUserName.getText().toString().trim(),
-                                edtPassword.getText().toString());
+                loginUser();
+//                TokenAsyncTask networkAsyncTask = new TokenAsyncTask(LoginActivity.this);
+//                networkAsyncTask
+//                        .execute(edtUserName.getText().toString().trim(),
+//                                edtPassword.getText().toString());
             } else {
                 Toast.makeText(LoginActivity.this, "Enable your internet connection!", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    private void loginUser() {
+        Call<RsToken> call = mApiInterface.login(IConstants.IReqres.REQUEST_URL_STRING,
+                new RqLogin(edtUserName.getText().toString().trim(), edtPassword.getText().toString()));
+        call.enqueue(new Callback<RsToken>() {
+            @Override
+            public void onResponse(Call<RsToken> call, Response<RsToken> response) {
+                String token = response.body().getToken();
+                launchDashBoard(token);
+            }
+
+            @Override
+            public void onFailure(Call<RsToken> call, Throwable t) {
+
+            }
+        });
     }
 
     private boolean validateLogin() {
@@ -62,7 +84,9 @@ public class LoginActivity extends AppCompatActivity {
         return true;
     }
 
-    private void launchDashBoard() {
+    private void launchDashBoard(String token) {
+        PreferenceHelper.getInstance(LoginActivity.this)
+                .writeString(IConstants.IPreference.PREF_TOKEN, token);
         PreferenceHelper.getInstance(LoginActivity.this)
                 .writeString(IConstants.IPreference.PREF_USER_NAME, edtUserName.getText().toString().trim());
         Intent intent = new Intent(LoginActivity.this, DashBoardActivity.class);
@@ -117,9 +141,7 @@ public class LoginActivity extends AppCompatActivity {
             if (tokenString == null) {
                 Toast.makeText(LoginActivity.this, "Credentials are not valid!", Toast.LENGTH_SHORT).show();
             } else {
-                PreferenceHelper.getInstance(LoginActivity.this)
-                        .writeString(IConstants.IPreference.PREF_TOKEN, tokenString);
-                launchDashBoard();
+                launchDashBoard(tokenString);
             }
         }
     }
