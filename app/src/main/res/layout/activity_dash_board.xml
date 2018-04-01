@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.stepin2it.DashBoardActivity">
+    tools:context="com.stepin2it.ui.activity.DashBoardActivity">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_product_list"
@@ -16,4 +16,13 @@
         android:layout_width="38dp"
         android:layout_height="38dp"
         android:layout_gravity="center" />
+
+    <TextView
+        android:id="@+id/txv_empty_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/enable_your_internet_connection"
+        android:textColor="@color/primaryTextColor"
+        android:textSize="16sp" />
 </FrameLayout>

@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">StepIn2It</string>
     <string name="splash_screen_text">Welcome</string>
+    <string name="enable_your_internet_connection">Enable your internet connection!</string>
 </resources>

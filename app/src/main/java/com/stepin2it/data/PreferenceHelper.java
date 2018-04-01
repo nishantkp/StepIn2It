@@ -1,7 +1,9 @@
-package com.stepin2it.utils;
+package com.stepin2it.data;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+
+import com.stepin2it.utils.IConstants;
 
 /**
  * Created by Nishant on 3/25/2018.

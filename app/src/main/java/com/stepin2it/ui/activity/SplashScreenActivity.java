@@ -1,12 +1,13 @@
-package com.stepin2it;
+package com.stepin2it.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 
+import com.stepin2it.R;
 import com.stepin2it.utils.IConstants;
-import com.stepin2it.utils.PreferenceHelper;
+import com.stepin2it.data.PreferenceHelper;
 
 public class SplashScreenActivity extends AppCompatActivity {
     private static final int SPLASH_TIME_OUT = 3000;

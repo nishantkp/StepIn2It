@@ -1,29 +1,41 @@
-package com.stepin2it;
+package com.stepin2it.ui.activity;
 
 import android.annotation.SuppressLint;
 import android.app.LoaderManager;
 import android.content.AsyncTaskLoader;
+import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
+import com.stepin2it.R;
+import com.stepin2it.data.NetworkUtils;
+import com.stepin2it.ui.adapter.ProductAdapter;
+import com.stepin2it.ui.models.ProductInfo;
 import com.stepin2it.utils.IConstants;
-import com.stepin2it.utils.NetworkUtils;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 public class DashBoardActivity extends AppCompatActivity
-        implements LoaderManager.LoaderCallbacks<List<ProductInfo>>
-        , ProductAdapter.IProductAdapterClickHandler {
+        implements LoaderManager.LoaderCallbacks<List<ProductInfo>>,
+        ProductAdapter.IProductAdapterClickHandler {
 
     // Loader ID
     private static final int PRODUCT_LIST_LOADER_ID = 456;
@@ -33,6 +45,8 @@ public class DashBoardActivity extends AppCompatActivity
     //Show progress bar while fetching data
     @BindView(R.id.pgb_dash_board)
     ProgressBar pgbDashBoard;
+    @BindView(R.id.txv_empty_view)
+    TextView txvEmptyView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +72,13 @@ public class DashBoardActivity extends AppCompatActivity
         mProductAdapter = new ProductAdapter(DashBoardActivity.this
                 , DashBoardActivity.this, null);
         mRecyclerView.setAdapter(mProductAdapter);
-        // Initialize loader
-        getLoaderManager().initLoader(PRODUCT_LIST_LOADER_ID, null, DashBoardActivity.this);
+        if (NetworkUtils.isNetworkAvailable(DashBoardActivity.this)) {
+            txvEmptyView.setVisibility(View.GONE);
+            // Initialize loader
+            getLoaderManager().initLoader(PRODUCT_LIST_LOADER_ID, null, DashBoardActivity.this);
+        } else {
+            txvEmptyView.setVisibility(View.VISIBLE);
+        }
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -70,12 +89,14 @@ public class DashBoardActivity extends AppCompatActivity
                 return new AsyncTaskLoader<List<ProductInfo>>(DashBoardActivity.this) {
                     @Override
                     protected void onStartLoading() {
+                        Timber.d("onStartLoading()");
                         pgbDashBoard.setVisibility(View.VISIBLE);
                         forceLoad();
                     }
 
                     @Override
                     public List<ProductInfo> loadInBackground() {
+                        Timber.d("loadInBackground()");
                         return NetworkUtils.fetchProductInfoFromUrl(IConstants.IJsonServer.REQUEST_URL);
                     }
                 };
@@ -92,8 +113,13 @@ public class DashBoardActivity extends AppCompatActivity
      */
     @Override
     public void onLoadFinished(Loader<List<ProductInfo>> loader, List<ProductInfo> productInfoList) {
+        Timber.d("onLoadFinished()");
         pgbDashBoard.setVisibility(View.GONE);
-        mProductAdapter.swapData(productInfoList);
+        List<ProductInfo> list = new ArrayList<>();
+        list.addAll(productInfoList);
+        list.addAll(productInfoList);
+        list.addAll(productInfoList);
+        mProductAdapter.swapData(list);
         if (mPosition == RecyclerView.NO_POSITION) {
             mPosition = 0;
         }
@@ -125,5 +151,53 @@ public class DashBoardActivity extends AppCompatActivity
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivity(intent);
         }
+    }
+
+    /**
+     * Implement onItemClick method of IProductAdapterClickHandler interface to show image
+     * when user clicks on image
+     * If the view is an instance of ImageView then get the BitmapDrawable from view and write
+     * that Bitmap into file system, and send the name of generated file to {@link ProductImageActivity}
+     * to retrieve image form that file
+     *
+     * @param index index of item which is clicked on
+     * @param view  list item view which is clicked on (i.e ImageView in this context)
+     */
+    @Override
+    public void onImageClick(int index, View view) {
+        if (view instanceof ImageView) {
+            BitmapDrawable bitmapDrawable = ((BitmapDrawable) ((ImageView) view).getDrawable());
+            Bitmap bitmap = bitmapDrawable.getBitmap();
+            // write image info file system
+            String fileName = writeBitmapIntoFile(bitmap);
+            Intent imageFileNameIntent = new Intent(DashBoardActivity.this, ProductImageActivity.class);
+            imageFileNameIntent.putExtra(IConstants.KEY_PRODUCT_IMAGE_INTENT, fileName);
+            startActivity(imageFileNameIntent);
+        }
+    }
+
+    /**
+     * Use this method to store bitmap into file system after compressing the image.
+     * That way we can effectively store image in memory and we can retrieve it in another activity.
+     * Here MODE_PRIVATE is used to make image hidden from other applications on device
+     *
+     * @param bitmap image that we want to store in memory
+     * @return file name
+     */
+    public String writeBitmapIntoFile(Bitmap bitmap) {
+        // No .png or .jpg extension needed for file name
+        String fileName = IConstants.PRODUCT_IMAGE_FILE_NAME;
+        try {
+            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+            FileOutputStream fileOutputStream = openFileOutput(fileName, Context.MODE_PRIVATE);
+            fileOutputStream.write(bytes.toByteArray());
+            // Always close the file after finishing writing operation
+            fileOutputStream.close();
+        } catch (Exception e) {
+            Timber.e(e, "Exception occurred while writing into file system");
+            fileName = null;
+        }
+        return fileName;
     }
 }

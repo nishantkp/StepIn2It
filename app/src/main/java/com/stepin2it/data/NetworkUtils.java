@@ -1,10 +1,14 @@
-package com.stepin2it.utils;
+package com.stepin2it.data;
 
-import android.util.Log;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
-import com.stepin2it.ProductInfo;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.stepin2it.ui.models.ProductInfo;
+import com.stepin2it.utils.IConstants;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -13,14 +17,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
+
+import timber.log.Timber;
 
 /**
  * Network Utility class
@@ -28,23 +34,24 @@ import javax.net.ssl.HttpsURLConnection;
  */
 
 public class NetworkUtils {
-    private static final String LOG_TAG = NetworkUtils.class.getSimpleName();
 
     /**
      * This method is used to get the token from https://reqres.in/
      * by providing username and password
      *
+     * @param userName user-name/email entered by user
+     * @param password password entered by user
      * @return string token requested from https://reqres.in/
      */
-    public static String getTokenFromReqres() {
+    public static String getTokenFromReqres(String userName, String password) {
         URL queryUrl = generateUrl(IConstants.IReqres.REQUEST_URL_STRING);
         String responseToken = null;
         try {
-            responseToken = getTokenFromHttpRequest(queryUrl);
+            responseToken = getTokenFromHttpRequest(queryUrl, userName, password);
         } catch (IOException e) {
-            Log.e(LOG_TAG, "Exception occurred while closing InputStream.", e);
+            Timber.e(e, "Exception occurred while closing InputStream.");
         } catch (JSONException e) {
-            Log.e(LOG_TAG, "Error creating JSON object", e);
+            Timber.e(e, "Error creating JSON object");
         }
         return responseToken;
     }
@@ -60,7 +67,7 @@ public class NetworkUtils {
         try {
             url = new URL(urlString);
         } catch (MalformedURLException e) {
-            Log.e(LOG_TAG, "Error creating url object", e);
+            Timber.e(e, "Error creating url object");
         }
         return url;
     }
@@ -69,17 +76,20 @@ public class NetworkUtils {
      * This method is used to get token string from URL
      *
      * @param requestUrl request url
+     * @param userName   user name entered by user
+     * @param password   password entered by user
      * @return string token
      * @throws IOException   Exception when creating http connection
      * @throws JSONException Exception when creating a JSON object
      */
-    private static String getTokenFromHttpRequest(URL requestUrl) throws IOException, JSONException {
+    private static String getTokenFromHttpRequest(URL requestUrl, String userName, String password)
+            throws IOException, JSONException {
         HttpsURLConnection httpsURLConnection = null;
         InputStream inputStream = null;
         String token = null;
         JSONObject requestJsonObject = new JSONObject();
-        requestJsonObject.put(IConstants.IReqres.KEY_JSON_EMAIL, IConstants.IReqres.USER_EMAIL);
-        requestJsonObject.put(IConstants.IReqres.KEY_JSON_PASSWORD, IConstants.IReqres.USER_PASSWORD);
+        requestJsonObject.put(IConstants.IReqres.KEY_JSON_EMAIL, userName);
+        requestJsonObject.put(IConstants.IReqres.KEY_JSON_PASSWORD, password);
         try {
             httpsURLConnection = (HttpsURLConnection) requestUrl.openConnection();
             httpsURLConnection.setRequestMethod("POST");
@@ -90,16 +100,15 @@ public class NetworkUtils {
             outputStreamWriter.write(requestJsonObject.toString());
             outputStreamWriter.flush();
             outputStreamWriter.close();
-            if (httpsURLConnection.getResponseCode() == IConstants.SUCCESS_RESPONSE_CODE) {
+            if (httpsURLConnection.getResponseCode() == IConstants.IReqres.SUCCESS_RESPONSE_CODE) {
                 inputStream = httpsURLConnection.getInputStream();
                 token = extractTokenFromJsonResponse(readDataFromInputStream(inputStream));
-                Log.i(LOG_TAG, "token :" + token);
+                Timber.i("token : %s", token);
             } else {
-                Log.i(LOG_TAG, "Response code : " + httpsURLConnection.getResponseCode());
-                token = null;
+                Timber.i("Response code : %s", httpsURLConnection.getResponseCode());
             }
         } catch (IOException e) {
-            Log.e(LOG_TAG, "Error opening Url connection", e);
+            Timber.e("Error opening Url connection");
         } finally {
             if (httpsURLConnection != null) {
                 httpsURLConnection.disconnect();
@@ -121,7 +130,7 @@ public class NetworkUtils {
         StringBuilder outputString = new StringBuilder();
         InputStreamReader inputStreamReader = new InputStreamReader(inputStream, Charset.forName("UTF-8"));
         BufferedReader reader = new BufferedReader(inputStreamReader);
-        String line = null;
+        String line;
         try {
             line = reader.readLine();
             while (line != null) {
@@ -129,7 +138,7 @@ public class NetworkUtils {
                 line = reader.readLine();
             }
         } catch (IOException e) {
-            Log.e(LOG_TAG, "Exception occurred while reading line from BufferedReader", e);
+            Timber.e(e, "Exception occurred while reading line from BufferedReader");
         }
         return outputString.toString();
     }
@@ -148,7 +157,7 @@ public class NetworkUtils {
                 token = jsonObject.getString(IConstants.IReqres.KEY_JSON_TOKEN);
             }
         } catch (JSONException e) {
-            Log.e(LOG_TAG, "Error creating a JSON object", e);
+            Timber.e(e, "Error creating a JSON object");
         }
         return token;
     }
@@ -170,10 +179,12 @@ public class NetworkUtils {
         try {
             jsonResponse = getJsonFromHttpRequest(url);
         } catch (IOException e) {
-            Log.i(LOG_TAG, "Exception caused by closing an InputStream", e);
+            Timber.i("Exception caused by closing an InputStream");
         }
         if (jsonResponse != null) {
-            return extractProductInfoFromJsonResponse(jsonResponse);
+            Type productList = new TypeToken<List<ProductInfo>>() {
+            }.getType();
+            return new Gson().fromJson(jsonResponse, productList);
         } else {
             return null;
         }
@@ -198,16 +209,17 @@ public class NetworkUtils {
             httpURLConnection.setConnectTimeout(IConstants.IJsonServer.CONNECT_TIME_OUT);
             httpURLConnection.connect();
             if (httpURLConnection.getResponseCode() == IConstants.IJsonServer.SUCCESS_RESPONSE_CODE) {
+                Timber.i("Response Code : %s", httpURLConnection.getResponseCode());
                 inputStream = httpURLConnection.getInputStream();
                 jsonResponse = readDataFromInputStream(inputStream);
             } else {
                 // If received any other response(i.e 400) code return null JSON response
-                Log.i(LOG_TAG, "Error response code : " + httpURLConnection.getResponseCode());
+                Timber.i("Error response code : %s", httpURLConnection.getResponseCode());
                 jsonResponse = null;
             }
 
         } catch (IOException e) {
-            Log.e(LOG_TAG, "Error creating a url connection", e);
+            Timber.e(e, "Error creating a url connection");
         } finally {
             if (httpURLConnection != null) {
                 httpURLConnection.disconnect();
@@ -222,60 +234,18 @@ public class NetworkUtils {
     }
 
     /**
-     * This method is used to extract the features of JSON response
+     * This method is called to check whether the network is available or not
      *
-     * @param jsonResponse JSON response in string format
-     * @return List<ProductInfo> object which contains detail information about product
+     * @param context context of the app
+     * @return If network is available method returns TRUE otherwise false
      */
-    private static List<ProductInfo> extractProductInfoFromJsonResponse(String jsonResponse) {
+    public static boolean isNetworkAvailable(Context context) {
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        assert connectivityManager != null;
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
 
-        List<ProductInfo> productInfoList = new ArrayList<>();
-
-        try {
-            JSONObject productObject = new JSONObject(jsonResponse);
-            if (productObject.has(IConstants.IJsonServer.KEY_JSON_PRODUCTS)) {
-                JSONArray productsArray = productObject.getJSONArray(IConstants.IJsonServer.KEY_JSON_PRODUCTS);
-                for (int i = 0; i < productsArray.length(); i++) {
-                    JSONObject productDetail = productsArray.getJSONObject(i);
-
-                    // Get the name of product if "name" field is present
-                    String productName = null;
-                    if (productDetail.has(IConstants.IJsonServer.KEY_JSON_NAME)) {
-                        productName = productDetail.getString(IConstants.IJsonServer.KEY_JSON_NAME);
-                    }
-
-                    // Get the description of product if "description" field is present
-                    String productDescription = null;
-                    if (productDetail.has(IConstants.IJsonServer.KEY_JSON_DESCRIPTION)) {
-                        productDescription = productDetail.getString(IConstants.IJsonServer.KEY_JSON_DESCRIPTION);
-                    }
-
-                    // Get the image-url of product if "image" field is present
-                    String productImageUrl = null;
-                    if (productDetail.has(IConstants.IJsonServer.KEY_JSON_IMAGE)) {
-                        productImageUrl = productDetail.getString(IConstants.IJsonServer.KEY_JSON_IMAGE);
-                    }
-
-                    // Get the phone of product if "phone" field is present
-                    String productPhone = null;
-                    if (productDetail.has(IConstants.IJsonServer.KEY_JSON_PHONE)) {
-                        productPhone = productDetail.getString(IConstants.IJsonServer.KEY_JSON_PHONE);
-                    }
-
-                    // Get the web-url of product if "web" field is present
-                    String productWebUrl = null;
-                    if (productDetail.has(IConstants.IJsonServer.KEY_JSON_WEB)) {
-                        productWebUrl = productDetail.getString(IConstants.IJsonServer.KEY_JSON_WEB);
-                    }
-
-                    productInfoList.add(new ProductInfo(productName, productDescription
-                            , productImageUrl, productPhone, productWebUrl));
-                }
-            }
-        } catch (JSONException e) {
-            Log.i(LOG_TAG, "Error creating a JSON object", e);
-        }
-        Log.i(LOG_TAG, "JSON response : " + jsonResponse);
-        return productInfoList;
+        return activeNetworkInfo != null
+                && activeNetworkInfo.isConnected();
     }
 }

@@ -1,4 +1,4 @@
-package com.stepin2it;
+package com.stepin2it.ui.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -8,9 +8,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
+import com.stepin2it.R;
+import com.stepin2it.ui.models.ProductInfo;
 
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Adapter to display product list
@@ -37,31 +42,40 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     }
 
     @Override
-    public void onBindViewHolder(ProductViewHolder holder, int position) {
+    public void onBindViewHolder(ProductViewHolder holder, final int position) {
         // Get the Product info at particular location
         ProductInfo productInfo = mProductInfoList.get(position);
 
         // Retrieve the information from object
         String name = productInfo.getProductName();
-        String description = productInfo.getProductDescription();
+        String description = productInfo.getDescription();
         String imageUrl = productInfo.getProductImageUrl();
 
         // Set the text to appropriate field
         holder.txvProductName.setText(name);
         holder.txvProductDescription.setText(description);
+        /* Set the onClickListener on ImageView, so that when user clicks on
+        ImageView, open up a new window to show that particular image
+        */
+        holder.imvProductImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mClickHandler != null) {
+                    mClickHandler.onImageClick(position, view);
+                }
+            }
+        });
 
-        // Download image from web and display it in appropriate ImageView
-        // with the help of Picasso library
-        Picasso.get().load(imageUrl).into(holder.imvProductImage);
+        /* Download image from web and display it in appropriate ImageView
+        with the help of Glide library
+        */
+        Glide.with(mContext).load(imageUrl).into(holder.imvProductImage);
     }
 
     // return the size of data set
     @Override
     public int getItemCount() {
-        if (mProductInfoList == null) {
-            return 0;
-        }
-        return mProductInfoList.size();
+        return mProductInfoList == null ? 0 : mProductInfoList.size();
     }
 
     /**
@@ -79,9 +93,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
      * An on-click handler that we've defined to make it easy for an Activity to interface with
      * our RecyclerView
      */
-    interface IProductAdapterClickHandler {
+    public interface IProductAdapterClickHandler {
         //The interface that receives onClick messages.
         void onItemClick(String urlString);
+
+        void onImageClick(int index, View view);
     }
 
     // View holder class
@@ -89,19 +105,17 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             implements View.OnClickListener {
 
         // Use ButterKnife library to bind views
-        //  @BindView(R.id.txt_product_name)
+        @BindView(R.id.txv_product_name)
         TextView txvProductName;
-        // @BindView(R.id.txt_product_description)
+        @BindView(R.id.txv_product_description)
         TextView txvProductDescription;
+        @BindView(R.id.imv_product_image)
         ImageView imvProductImage;
 
         ProductViewHolder(View itemView) {
             super(itemView);
             // Bind the butter knife library with layout
-            //ButterKnife.bind(mContext, itemView);
-            txvProductName = itemView.findViewById(R.id.txv_product_name);
-            txvProductDescription = itemView.findViewById(R.id.txv_product_description);
-            imvProductImage = itemView.findViewById(R.id.imv_product_image);
+            ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);
         }
 

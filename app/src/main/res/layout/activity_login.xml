@@ -7,7 +7,7 @@
     android:gravity="center"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context="com.stepin2it.LoginActivity">
+    tools:context="com.stepin2it.ui.activity.LoginActivity">
 
     <EditText
         android:id="@+id/edt_user_name"
@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Password"
-        android:inputType="numberPassword"
+        android:inputType="textPassword"
         android:maxLines="1" />
 
     <Button
