@@ -44,7 +44,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     @Override
     public void onBindViewHolder(ProductViewHolder holder, final int position) {
         // Get the Product info at particular location
-        ProductInfo productInfo = mProductInfoList.get(position);
+        final ProductInfo productInfo = mProductInfoList.get(position);
 
         // Retrieve the information from object
         String name = productInfo.getProductName();
@@ -61,7 +61,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             @Override
             public void onClick(View view) {
                 if (mClickHandler != null) {
-                    mClickHandler.onImageClick(position, view);
+                    mClickHandler.onImageClick(position, view, mProductInfoList.get(position));
                 }
             }
         });
@@ -97,7 +97,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         //The interface that receives onClick messages.
         void onItemClick(String urlString);
 
-        void onImageClick(int index, View view);
+        void onImageClick(int index, View view, ProductInfo productInfo);
     }
 
     // View holder class
