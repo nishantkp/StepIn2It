@@ -2,6 +2,7 @@ package com.stepin2it.data.local;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.stepin2it.ui.models.ProductInfo;
@@ -37,5 +38,26 @@ public class DatabaseHelper {
             // Insert data
             sDatabase.insert(IDatabase.IProductTable.TABLE_NAME, null, contentValues);
         }
+    }
+
+    /**
+     * This method is called to get every data from database table
+     *
+     * @return cursor containing product list
+     */
+    public Cursor readProducts() {
+        String[] projection = {
+                IDatabase.IProductTable.PRODUCT_NAME,
+                IDatabase.IProductTable.PRODUCT_DESCRIPTION,
+                IDatabase.IProductTable.PRODUCT_IMAGE,
+                IDatabase.IProductTable.PRODUCT_PHONE};
+        return sDatabase.query(
+                IDatabase.IProductTable.TABLE_NAME,
+                projection,
+                null,
+                null,
+                null,
+                null,
+                null);
     }
 }

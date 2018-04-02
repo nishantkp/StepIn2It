@@ -6,6 +6,7 @@ import android.content.AsyncTaskLoader;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,9 +17,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.stepin2it.R;
 import com.stepin2it.data.NetworkUtils;
+import com.stepin2it.data.local.IDatabase;
 import com.stepin2it.ui.adapter.ProductAdapter;
 import com.stepin2it.ui.models.ProductInfo;
 import com.stepin2it.utils.IConstants;
@@ -74,16 +77,79 @@ public class DashBoardActivity extends BaseActivity
         mProductAdapter = new ProductAdapter(DashBoardActivity.this
                 , DashBoardActivity.this, null);
         mRecyclerView.setAdapter(mProductAdapter);
+        displayProductList();
+    }
+
+    /**
+     * Call this method to display data on UI
+     */
+    private void displayProductList() {
         if (NetworkUtils.isNetworkAvailable(DashBoardActivity.this)) {
             txvEmptyView.setVisibility(View.GONE);
-            getProductInfo();
-            // Initialize loader
-            //    getLoaderManager().initLoader(PRODUCT_LIST_LOADER_ID, null, DashBoardActivity.this);
+            if (!isProductListCacheAvailable()) {
+                // If we don't have any cached data, fetch data from web
+                getProductInfo();
+            } else {
+                pgbDashBoard.setVisibility(View.GONE);
+                mProductAdapter.swapData(loadDataFromCache());
+            }
         } else {
-            txvEmptyView.setVisibility(View.VISIBLE);
+            // If we don't have internet connection load data from cache, hide progressbar
+            // and network connection textView and notify user to check
+            // network connection
+            if (isProductListCacheAvailable()) {
+                txvEmptyView.setVisibility(View.GONE);
+                pgbDashBoard.setVisibility(View.GONE);
+                mProductAdapter.swapData(loadDataFromCache());
+                Toast.makeText(DashBoardActivity.this,
+                        getResources().getString(R.string.enable_your_internet_connection),
+                        Toast.LENGTH_SHORT).show();
+            } else {
+                txvEmptyView.setVisibility(View.VISIBLE);
+            }
         }
     }
 
+    /**
+     * Use this method to check product list is present in database or not
+     *
+     * @return true if the cache available and false if not
+     */
+    private boolean isProductListCacheAvailable() {
+        Cursor productCache = mDatabaseHelper.readProducts();
+        return productCache.getCount() > 0;
+    }
+
+    /**
+     * This method will read the data from cursor and make a list to update the adapter
+     *
+     * @return List<ProductInfo> list
+     */
+    private List<ProductInfo> loadDataFromCache() {
+        Cursor productCache = mDatabaseHelper.readProducts();
+        List<ProductInfo> productInfoList = new ArrayList<>();
+        productCache.moveToFirst();
+        do {
+            String productName =
+                    productCache.getString(productCache.getColumnIndex(IDatabase.IProductTable.PRODUCT_NAME));
+            String productDescription =
+                    productCache.getString(productCache.getColumnIndex(IDatabase.IProductTable.PRODUCT_DESCRIPTION));
+            String productImage =
+                    productCache.getString(productCache.getColumnIndex(IDatabase.IProductTable.PRODUCT_IMAGE));
+            String productPhone =
+                    productCache.getString(productCache.getColumnIndex(IDatabase.IProductTable.PRODUCT_PHONE));
+            productInfoList.add(new ProductInfo(
+                    productName,
+                    productDescription,
+                    productImage,
+                    productPhone, null, null, null, null, null));
+        } while (productCache.moveToNext());
+        return productInfoList;
+    }
+
+    /**
+     * Call this method to make an API call to get the new batch of data and to display it on UI
+     */
     private void getProductInfo() {
         pgbDashBoard.setVisibility(View.VISIBLE);
         Call<List<ProductInfo>> call = mApiInterface.getProductInfo();

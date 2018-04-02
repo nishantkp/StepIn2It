@@ -39,6 +39,20 @@ public class ProductInfo implements Parcelable {
     @SerializedName("warehouseLocation")
     private WarehouseLocation warehouseLocation;
 
+    public ProductInfo(String productName, String description, String productImageUrl,
+                       String productPhone, String productWebUrl, String price, String[] tags,
+                       Dimensions dimensions, WarehouseLocation warehouseLocation) {
+        this.productName = productName;
+        this.description = description;
+        this.productImageUrl = productImageUrl;
+        this.productPhone = productPhone;
+        this.productWebUrl = productWebUrl;
+        this.price = price;
+        this.tags = tags;
+        this.dimensions = dimensions;
+        this.warehouseLocation = warehouseLocation;
+    }
+
     public String getProductName() {
         return productName;
     }
