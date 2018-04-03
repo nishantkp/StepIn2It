@@ -23,7 +23,9 @@ import com.stepin2it.R;
 import com.stepin2it.data.NetworkUtils;
 import com.stepin2it.data.local.IDatabase;
 import com.stepin2it.ui.adapter.ProductAdapter;
+import com.stepin2it.ui.models.Dimensions;
 import com.stepin2it.ui.models.ProductInfo;
+import com.stepin2it.ui.models.WarehouseLocation;
 import com.stepin2it.utils.IConstants;
 
 import java.io.ByteArrayOutputStream;
@@ -130,6 +132,7 @@ public class DashBoardActivity extends BaseActivity
         List<ProductInfo> productInfoList = new ArrayList<>();
         productCache.moveToFirst();
         do {
+            // Get each element from Cursor and create an array list
             String productName =
                     productCache.getString(productCache.getColumnIndex(IDatabase.IProductTable.PRODUCT_NAME));
             String productDescription =
@@ -138,11 +141,31 @@ public class DashBoardActivity extends BaseActivity
                     productCache.getString(productCache.getColumnIndex(IDatabase.IProductTable.PRODUCT_IMAGE));
             String productPhone =
                     productCache.getString(productCache.getColumnIndex(IDatabase.IProductTable.PRODUCT_PHONE));
+            String productWebUrl =
+                    productCache.getString(productCache.getColumnIndex(IDatabase.IProductTable.PRODUCT_WEB));
+            String productPrice =
+                    productCache.getString(productCache.getColumnIndex(IDatabase.IProductTable.PRODUCT_PRICE));
+            String productLength =
+                    productCache.getString(productCache.getColumnIndex(IDatabase.IProductTable.PRODUCT_LENGTH));
+            String productWidth =
+                    productCache.getString(productCache.getColumnIndex(IDatabase.IProductTable.PRODUCT_WIDTH));
+            String productHeight =
+                    productCache.getString(productCache.getColumnIndex(IDatabase.IProductTable.PRODUCT_HEIGHT));
+            String productLatitude =
+                    productCache.getString(productCache.getColumnIndex(IDatabase.IProductTable.WAREHOUSE_LATITUDE));
+            String productLongitude =
+                    productCache.getString(productCache.getColumnIndex(IDatabase.IProductTable.WAREHOUSE_LONGITUDE));
+            // Add new ProductInfo object into List
             productInfoList.add(new ProductInfo(
                     productName,
                     productDescription,
                     productImage,
-                    productPhone, null, null, null, null, null));
+                    productPhone,
+                    productWebUrl,
+                    productPrice,
+                    null,
+                    new Dimensions(productLength, productWidth, productHeight),
+                    new WarehouseLocation(productLatitude, productLongitude)));
         } while (productCache.moveToNext());
         return productInfoList;
     }

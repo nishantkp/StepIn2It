@@ -39,7 +39,10 @@ public class Dimensions implements Parcelable {
         dest.writeString(this.height);
     }
 
-    public Dimensions() {
+    public Dimensions(String length, String width, String height) {
+        this.length = length;
+        this.width = width;
+        this.height = height;
     }
 
     protected Dimensions(Parcel in) {

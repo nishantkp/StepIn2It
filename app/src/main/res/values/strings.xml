@@ -5,4 +5,12 @@
     <string name="settings_label">Settings</string>
     <string name="logout_label">Logout</string>
     <string name="user_name_label">Username</string>
+    <string name="longitude_label">Longitude</string>
+    <string name="latitude_label">Latitude</string>
+    <string name="product_detail">Product Detail</string>
+    <string name="width_label">Width</string>
+    <string name="length_label">Length</string>
+    <string name="height_label">Height</string>
+    <string name="web_label">Web</string>
+    <string name="phone_label">Phone</string>
 </resources>

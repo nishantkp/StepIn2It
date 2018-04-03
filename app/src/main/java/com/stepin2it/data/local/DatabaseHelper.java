@@ -35,6 +35,14 @@ public class DatabaseHelper {
             contentValues.put(IDatabase.IProductTable.PRODUCT_DESCRIPTION, productInfo.getDescription());
             contentValues.put(IDatabase.IProductTable.PRODUCT_IMAGE, productInfo.getProductImageUrl());
             contentValues.put(IDatabase.IProductTable.PRODUCT_PHONE, productInfo.getProductPhone());
+            contentValues.put(IDatabase.IProductTable.PRODUCT_WEB, productInfo.getProductWebUrl());
+            contentValues.put(IDatabase.IProductTable.PRODUCT_PRICE, productInfo.getPrice());
+            contentValues.put(IDatabase.IProductTable.PRODUCT_LENGTH, productInfo.getDimensions().getLength());
+            contentValues.put(IDatabase.IProductTable.PRODUCT_WIDTH, productInfo.getDimensions().getWidth());
+            contentValues.put(IDatabase.IProductTable.PRODUCT_HEIGHT, productInfo.getDimensions().getHeight());
+            contentValues.put(IDatabase.IProductTable.WAREHOUSE_LATITUDE, productInfo.getWarehouseLocation().getLatitude());
+            contentValues.put(IDatabase.IProductTable.WAREHOUSE_LONGITUDE, productInfo.getWarehouseLocation().getLongitude());
+
             // Insert data
             sDatabase.insert(IDatabase.IProductTable.TABLE_NAME, null, contentValues);
         }
@@ -50,7 +58,14 @@ public class DatabaseHelper {
                 IDatabase.IProductTable.PRODUCT_NAME,
                 IDatabase.IProductTable.PRODUCT_DESCRIPTION,
                 IDatabase.IProductTable.PRODUCT_IMAGE,
-                IDatabase.IProductTable.PRODUCT_PHONE};
+                IDatabase.IProductTable.PRODUCT_PHONE,
+                IDatabase.IProductTable.PRODUCT_WEB,
+                IDatabase.IProductTable.PRODUCT_PRICE,
+                IDatabase.IProductTable.PRODUCT_LENGTH,
+                IDatabase.IProductTable.PRODUCT_WIDTH,
+                IDatabase.IProductTable.PRODUCT_HEIGHT,
+                IDatabase.IProductTable.WAREHOUSE_LONGITUDE,
+                IDatabase.IProductTable.WAREHOUSE_LATITUDE};
         return sDatabase.query(
                 IDatabase.IProductTable.TABLE_NAME,
                 projection,

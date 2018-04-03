@@ -8,6 +8,9 @@
     <color name="gradientStartColor">#01579B</color>
     <color name="gradientCenterColor">#0288D1</color>
     <color name="gradientEndColor">#03A9F4</color>
+
     <color name="primaryTextColor">#212121</color>
     <color name="secondaryTextColor">#616161</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="priceTextColor">#00695C</color>
 </resources>

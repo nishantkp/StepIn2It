@@ -31,7 +31,9 @@ public class WarehouseLocation implements Parcelable {
         dest.writeString(this.longitude);
     }
 
-    public WarehouseLocation() {
+    public WarehouseLocation(String latitude, String longitude) {
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     protected WarehouseLocation(Parcel in) {
