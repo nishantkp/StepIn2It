@@ -1,8 +1,11 @@
 package com.stepin2it.ui.activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,11 +25,11 @@ public class ProductDetailActivity extends AppCompatActivity {
     @BindView(R.id.txv_description_detail_info)
     TextView txvDescriptionDetailInfo;
 
-    @BindView(R.id.txv_phone_detail_info)
-    TextView txvPhoneDetailInfo;
+    @BindView(R.id.btn_call_detail_info)
+    Button btnCallDetailInfo;
 
-    @BindView(R.id.txv_web_detail_info)
-    TextView txvWebDetailInfo;
+    @BindView(R.id.btn_web_detail_info)
+    Button btnWebDetailInfo;
 
     @BindView(R.id.txv_price_detail_info)
     TextView txvPriceDetailInfo;
@@ -70,20 +73,42 @@ public class ProductDetailActivity extends AppCompatActivity {
      *
      * @param productInfo ProductInfo object containing all the details about product
      */
-    private void displayInfo(ProductInfo productInfo) {
+    private void displayInfo(final ProductInfo productInfo) {
         // Get the each detail from productInfo and display it appropriately
         txvNameDetailInfo.setText(productInfo.getProductName());
         txvDescriptionDetailInfo.setText(productInfo.getDescription());
         // Use glide to display product image on ImageView
         Glide.with(ProductDetailActivity.this).load(productInfo.getProductImageUrl()).into(imvImageDetailInfo);
         txvPriceDetailInfo.setText(productInfo.getPrice());
-        txvPhoneDetailInfo.setText(productInfo.getProductPhone());
-        txvWebDetailInfo.setText(productInfo.getProductWebUrl());
-        txvWebDetailInfo.setText(productInfo.getProductWebUrl());
         txvDimensionLength.setText(productInfo.getDimensions().getLength());
         txvDimensionWidth.setText(productInfo.getDimensions().getWidth());
         txvDimensionHeight.setText(productInfo.getDimensions().getHeight());
         txvLongitudeDetailInfo.setText(productInfo.getWarehouseLocation().getLongitude());
         txvLatitudeDetailInfo.setText(productInfo.getWarehouseLocation().getLatitude());
+
+        btnCallDetailInfo.setText(productInfo.getProductPhone());
+        // Attach a click listener on call button to make a phone call when user clicks on it
+        btnCallDetailInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:" + productInfo.getProductPhone()));
+                if (intent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(intent);
+                }
+            }
+        });
+
+        // Attach a click listener on web button open a url in web browser when user clicks on it
+        btnWebDetailInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Uri webPage = Uri.parse(productInfo.getProductWebUrl());
+                Intent intent = new Intent(Intent.ACTION_VIEW, webPage);
+                if (intent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(intent);
+                }
+            }
+        });
     }
 }

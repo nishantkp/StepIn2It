@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -44,30 +45,6 @@
             tools:text="Product Description" />
 
         <TextView
-            android:id="@+id/txv_phone_detail_info_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:fontFamily="sans-serif-light"
-            android:text="@string/phone_label"
-            android:textColor="@color/secondaryTextColor"
-            android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="@+id/imv_image_detail_info"
-            app:layout_constraintTop_toBottomOf="@+id/imv_image_detail_info" />
-
-        <TextView
-            android:id="@+id/txv_web_detail_info_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:fontFamily="sans-serif-light"
-            android:text="@string/web_label"
-            android:textColor="@color/secondaryTextColor"
-            android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="@+id/txv_phone_detail_info_label"
-            app:layout_constraintTop_toBottomOf="@+id/txv_phone_detail_info_label" />
-
-        <TextView
             android:id="@+id/txv_price_detail_info_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -85,32 +62,10 @@
             layout="@layout/dimensions_table"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txv_web_detail_info" />
-
-        <TextView
-            android:id="@+id/txv_phone_detail_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="32dp"
-            android:layout_marginStart="32dp"
-            android:fontFamily="sans-serif"
-            android:textSize="18sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/txv_phone_detail_info_label"
-            app:layout_constraintStart_toEndOf="@+id/txv_phone_detail_info_label"
-            tools:text="+1-(123) 848-8952" />
-
-        <TextView
-            android:id="@+id/txv_web_detail_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif"
-            android:textSize="18sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/txv_web_detail_info_label"
-            app:layout_constraintStart_toStartOf="@+id/txv_phone_detail_info"
-            tools:text="www.apple.ca" />
+            app:layout_constraintTop_toBottomOf="@+id/btn_web_detail_info" />
 
         <TextView
             android:id="@+id/txv_price_detail_info"
@@ -130,7 +85,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="24dp"
             android:layout_marginRight="24dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="16dp"
             android:fontFamily="sans-serif-light"
             android:text="@string/longitude_label"
             android:textColor="@color/secondaryTextColor"
@@ -192,6 +147,32 @@
             app:layout_constraintStart_toStartOf="@+id/guideline"
             app:layout_constraintTop_toTopOf="@+id/txv_price_detail_info_label"
             app:srcCompat="@drawable/price_border" />
+
+        <Button
+            android:id="@+id/btn_web_detail_info"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:drawableLeft="@drawable/ic_internet"
+            android:drawablePadding="16dp"
+            android:drawableStart="@drawable/ic_internet"
+            android:text="Web"
+            app:layout_constraintStart_toStartOf="@+id/btn_call_detail_info"
+            app:layout_constraintTop_toBottomOf="@+id/btn_call_detail_info" />
+
+        <Button
+            android:id="@+id/btn_call_detail_info"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:drawableLeft="@drawable/ic_phone_receiver"
+            android:drawablePadding="16dp"
+            android:drawableStart="@drawable/ic_phone_receiver"
+            android:text="+1-(123)-123-1234"
+            app:layout_constraintStart_toStartOf="@+id/imv_image_detail_info"
+            app:layout_constraintTop_toBottomOf="@+id/imv_image_detail_info" />
 
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

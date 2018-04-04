@@ -5,6 +5,8 @@
     <!-- Internet permission -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Permission to make a phone call -->
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
         android:name=".Stepin2ItApplication"
