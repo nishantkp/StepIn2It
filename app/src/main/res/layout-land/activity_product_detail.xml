@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        tools:context=".ui.activity.ProductDetailActivity">
+
+        <TextView
+            android:id="@+id/txv_name_detail_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:fontFamily="sans-serif-medium"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/imv_image_detail_info"
+            app:layout_constraintTop_toTopOf="@+id/imv_image_detail_info"
+            tools:text="iPhone X" />
+
+        <ImageView
+            android:id="@+id/imv_image_detail_info"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/splash_screen_background" />
+
+        <TextView
+            android:id="@+id/txv_description_detail_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="@+id/txv_name_detail_info"
+            app:layout_constraintTop_toBottomOf="@+id/txv_name_detail_info"
+            tools:text="Product Description" />
+
+        <TextView
+            android:id="@+id/txv_price_detail_info_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="24dp"
+            android:layout_marginStart="24dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="Price"
+            android:textColor="@color/secondaryTextColor"
+            android:textSize="18sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/txv_name_detail_info"
+            app:layout_constraintStart_toStartOf="@+id/guideline" />
+
+        <include
+            android:id="@+id/include"
+            layout="@layout/dimensions_table"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="@+id/btn_web_detail_info"
+            app:layout_constraintStart_toStartOf="@+id/btn_call_detail_info"
+            app:layout_constraintTop_toBottomOf="@+id/btn_call_detail_info" />
+
+        <TextView
+            android:id="@+id/txv_price_detail_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:textColor="@color/priceTextColor"
+            android:textSize="20sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/txv_description_detail_info"
+            app:layout_constraintEnd_toEndOf="@+id/txv_price_detail_info_label"
+            app:layout_constraintStart_toStartOf="@+id/txv_price_detail_info_label"
+            tools:text="$1452" />
+
+        <TextView
+            android:id="@+id/txv_longitude_detail_info_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            android:layout_marginRight="24dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="@string/longitude_label"
+            android:textColor="@color/secondaryTextColor"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline"
+            app:layout_constraintTop_toTopOf="@+id/include" />
+
+        <TextView
+            android:id="@+id/txv_latitude_detail_info_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="24dp"
+            android:layout_marginStart="24dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="@string/latitude_label"
+            android:textColor="@color/secondaryTextColor"
+            android:textSize="16sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/txv_longitude_detail_info_label"
+            app:layout_constraintStart_toStartOf="@+id/guideline" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.82" />
+
+        <TextView
+            android:id="@+id/txv_longitude_detail_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="@+id/txv_longitude_detail_info_label"
+            app:layout_constraintStart_toStartOf="@+id/txv_longitude_detail_info_label"
+            app:layout_constraintTop_toBottomOf="@+id/txv_longitude_detail_info_label"
+            tools:text="0.236512" />
+
+        <TextView
+            android:id="@+id/txv_latitude_detail_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="@+id/txv_latitude_detail_info_label"
+            app:layout_constraintStart_toStartOf="@+id/txv_latitude_detail_info_label"
+            app:layout_constraintTop_toTopOf="@+id/txv_longitude_detail_info"
+            tools:text="0.31685" />
+
+        <Button
+            android:id="@+id/btn_web_detail_info"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="32dp"
+            android:layout_marginStart="32dp"
+            android:drawableLeft="@drawable/ic_internet"
+            android:drawablePadding="16dp"
+            android:drawableStart="@drawable/ic_internet"
+            android:text="Web"
+            app:layout_constraintStart_toEndOf="@+id/btn_call_detail_info"
+            app:layout_constraintTop_toTopOf="@+id/btn_call_detail_info" />
+
+        <Button
+            android:id="@+id/btn_call_detail_info"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:drawableLeft="@drawable/ic_phone_receiver"
+            android:drawablePadding="16dp"
+            android:drawableStart="@drawable/ic_phone_receiver"
+            android:text="+1-(123)-123-1234"
+            app:layout_constraintStart_toStartOf="@+id/imv_image_detail_info"
+            app:layout_constraintTop_toBottomOf="@+id/imv_image_detail_info" />
+
+    </android.support.constraint.ConstraintLayout>
+</ScrollView>
