@@ -49,7 +49,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         // Retrieve the information from object
         String name = productInfo.getProductName();
         String description = productInfo.getDescription();
-        String imageUrl = productInfo.getProductImageUrl();
 
         // Set the text to appropriate field
         holder.txvProductName.setText(name);
@@ -69,7 +68,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         /* Download image from web and display it in appropriate ImageView
         with the help of Glide library
         */
-        Glide.with(mContext).load(imageUrl).into(holder.imvProductImage);
+        Glide.with(mContext).load(productInfo.getFirstImageUrl()).into(holder.imvProductImage);
     }
 
     // return the size of data set

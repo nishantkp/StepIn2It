@@ -6,7 +6,6 @@ import android.content.AsyncTaskLoader;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,11 +20,8 @@ import android.widget.Toast;
 
 import com.stepin2it.R;
 import com.stepin2it.data.NetworkUtils;
-import com.stepin2it.data.local.IDatabase;
 import com.stepin2it.ui.adapter.ProductAdapter;
-import com.stepin2it.ui.models.Dimensions;
 import com.stepin2it.ui.models.ProductInfo;
-import com.stepin2it.ui.models.WarehouseLocation;
 import com.stepin2it.utils.IConstants;
 
 import java.io.ByteArrayOutputStream;
@@ -86,23 +82,24 @@ public class DashBoardActivity extends BaseActivity
      * Call this method to display data on UI
      */
     private void displayProductList() {
+        List<ProductInfo> productInfoList = mDatabaseHelper.readProducts();
         if (NetworkUtils.isNetworkAvailable(DashBoardActivity.this)) {
             txvEmptyView.setVisibility(View.GONE);
-            if (!isProductListCacheAvailable()) {
+            if (productInfoList.size() == 0) {
                 // If we don't have any cached data, fetch data from web
                 getProductInfo();
             } else {
                 pgbDashBoard.setVisibility(View.GONE);
-                mProductAdapter.swapData(loadDataFromCache());
+                mProductAdapter.swapData(productInfoList);
             }
         } else {
             // If we don't have internet connection load data from cache, hide progressbar
             // and network connection textView and notify user to check
             // network connection
-            if (isProductListCacheAvailable()) {
+            if (productInfoList.size() > 0) {
                 txvEmptyView.setVisibility(View.GONE);
                 pgbDashBoard.setVisibility(View.GONE);
-                mProductAdapter.swapData(loadDataFromCache());
+                mProductAdapter.swapData(productInfoList);
                 Toast.makeText(DashBoardActivity.this,
                         getResources().getString(R.string.enable_your_internet_connection),
                         Toast.LENGTH_SHORT).show();
@@ -110,64 +107,6 @@ public class DashBoardActivity extends BaseActivity
                 txvEmptyView.setVisibility(View.VISIBLE);
             }
         }
-    }
-
-    /**
-     * Use this method to check product list is present in database or not
-     *
-     * @return true if the cache available and false if not
-     */
-    private boolean isProductListCacheAvailable() {
-        Cursor productCache = mDatabaseHelper.readProducts();
-        return productCache.getCount() > 0;
-    }
-
-    /**
-     * This method will read the data from cursor and make a list to update the adapter
-     *
-     * @return List<ProductInfo> list
-     */
-    private List<ProductInfo> loadDataFromCache() {
-        Cursor productCache = mDatabaseHelper.readProducts();
-        List<ProductInfo> productInfoList = new ArrayList<>();
-        productCache.moveToFirst();
-        do {
-            // Get each element from Cursor and create an array list
-            String productName =
-                    productCache.getString(productCache.getColumnIndex(IDatabase.IProductTable.PRODUCT_NAME));
-            String productDescription =
-                    productCache.getString(productCache.getColumnIndex(IDatabase.IProductTable.PRODUCT_DESCRIPTION));
-            String productImage =
-                    productCache.getString(productCache.getColumnIndex(IDatabase.IProductTable.PRODUCT_IMAGE));
-            String productPhone =
-                    productCache.getString(productCache.getColumnIndex(IDatabase.IProductTable.PRODUCT_PHONE));
-            String productWebUrl =
-                    productCache.getString(productCache.getColumnIndex(IDatabase.IProductTable.PRODUCT_WEB));
-            String productPrice =
-                    productCache.getString(productCache.getColumnIndex(IDatabase.IProductTable.PRODUCT_PRICE));
-            String productLength =
-                    productCache.getString(productCache.getColumnIndex(IDatabase.IProductTable.PRODUCT_LENGTH));
-            String productWidth =
-                    productCache.getString(productCache.getColumnIndex(IDatabase.IProductTable.PRODUCT_WIDTH));
-            String productHeight =
-                    productCache.getString(productCache.getColumnIndex(IDatabase.IProductTable.PRODUCT_HEIGHT));
-            String productLatitude =
-                    productCache.getString(productCache.getColumnIndex(IDatabase.IProductTable.WAREHOUSE_LATITUDE));
-            String productLongitude =
-                    productCache.getString(productCache.getColumnIndex(IDatabase.IProductTable.WAREHOUSE_LONGITUDE));
-            // Add new ProductInfo object into List
-            productInfoList.add(new ProductInfo(
-                    productName,
-                    productDescription,
-                    productImage,
-                    productPhone,
-                    productWebUrl,
-                    productPrice,
-                    null,
-                    new Dimensions(productLength, productWidth, productHeight),
-                    new WarehouseLocation(productLatitude, productLongitude)));
-        } while (productCache.moveToNext());
-        return productInfoList;
     }
 
     /**
@@ -274,15 +213,18 @@ public class DashBoardActivity extends BaseActivity
     @Override
     public void onImageClick(int index, View view, ProductInfo productInfo) {
         if (view instanceof ImageView) {
-            String url = productInfo.getProductImageUrl();
+            if (productInfo.getImageList().size() > 0) {
+                String url = productInfo.getImageList().get(0);
+                Intent imageFileNameIntent = new Intent(DashBoardActivity.this, ProductImageActivity.class);
+                // imageFileNameIntent.putExtra(IConstants.KEY_PRODUCT_IMAGE_INTENT, fileName);
+                imageFileNameIntent.putExtra(IConstants.KEY_PRODUCT_IMAGE_URL, url);
+                startActivity(imageFileNameIntent);
+            }
             // BitmapDrawable bitmapDrawable = ((BitmapDrawable) ((ImageView) view).getDrawable());
             // Bitmap bitmap = bitmapDrawable.getBitmap();
             // write image info file system
             // String fileName = writeBitmapIntoFile(bitmap);
-            Intent imageFileNameIntent = new Intent(DashBoardActivity.this, ProductImageActivity.class);
-            // imageFileNameIntent.putExtra(IConstants.KEY_PRODUCT_IMAGE_INTENT, fileName);
-            imageFileNameIntent.putExtra(IConstants.KEY_PRODUCT_IMAGE_URL, url);
-            startActivity(imageFileNameIntent);
+
         }
     }
 

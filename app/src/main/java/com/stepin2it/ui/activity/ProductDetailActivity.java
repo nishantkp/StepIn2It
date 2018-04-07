@@ -76,8 +76,6 @@ public class ProductDetailActivity extends AppCompatActivity {
         // Get the each detail from productInfo and display it appropriately
         txvNameDetailInfo.setText(mProductInfo.getProductName());
         txvDescriptionDetailInfo.setText(mProductInfo.getDescription());
-        // Use glide to display product image on ImageView
-        Glide.with(ProductDetailActivity.this).load(mProductInfo.getProductImageUrl()).into(imvImageDetailInfo);
         txvPriceDetailInfo.setText(mProductInfo.getPrice());
         txvDimensionLength.setText(mProductInfo.getDimensions().getLength());
         txvDimensionWidth.setText(mProductInfo.getDimensions().getWidth());
@@ -109,5 +107,10 @@ public class ProductDetailActivity extends AppCompatActivity {
                 }
             }
         });
+
+        // If we have multiple images for a single product, select the first image to display
+        if (mProductInfo.getImageList().size() > 0) {
+            Glide.with(ProductDetailActivity.this).load(mProductInfo.getImageList().get(0)).into(imvImageDetailInfo);
+        }
     }
 }
