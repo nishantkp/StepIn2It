@@ -195,7 +195,7 @@ public class DashBoardActivity extends BaseActivity
      */
     @Override
     public void onItemClick(String urlString, ProductInfo productInfo) {
-        Intent productDetailIntent = new Intent(DashBoardActivity.this, ProductDetailActivity.class);
+        Intent productDetailIntent = new Intent(DashBoardActivity.this, ProductDetailsActivity.class);
         productDetailIntent.putExtra(IConstants.KEY_PRODUCT_DETAIL_PARCELABLE, productInfo);
         startActivity(productDetailIntent);
     }

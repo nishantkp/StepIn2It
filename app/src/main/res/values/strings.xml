@@ -13,4 +13,7 @@
     <string name="height_label">Height</string>
     <string name="web_label">Web</string>
     <string name="phone_label">Phone</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
