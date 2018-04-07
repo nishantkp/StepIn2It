@@ -52,6 +52,8 @@ public class ProductDetailActivity extends AppCompatActivity {
     @BindView(R.id.imv_image_detail_info)
     ImageView imvImageDetailInfo;
 
+    private ProductInfo mProductInfo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,39 +62,36 @@ public class ProductDetailActivity extends AppCompatActivity {
         // Bing the butter-knife with current activity
         ButterKnife.bind(ProductDetailActivity.this);
 
-        ProductInfo productInfo;
         Intent intent = getIntent();
         if (intent.hasExtra(IConstants.KEY_PRODUCT_DETAIL_PARCELABLE)) {
-            productInfo = intent.getParcelableExtra(IConstants.KEY_PRODUCT_DETAIL_PARCELABLE);
-            displayInfo(productInfo);
+            mProductInfo = intent.getParcelableExtra(IConstants.KEY_PRODUCT_DETAIL_PARCELABLE);
+            displayInfo();
         }
     }
 
     /**
      * Call this method to populate detail activity layout
-     *
-     * @param productInfo ProductInfo object containing all the details about product
      */
-    private void displayInfo(final ProductInfo productInfo) {
+    private void displayInfo() {
         // Get the each detail from productInfo and display it appropriately
-        txvNameDetailInfo.setText(productInfo.getProductName());
-        txvDescriptionDetailInfo.setText(productInfo.getDescription());
+        txvNameDetailInfo.setText(mProductInfo.getProductName());
+        txvDescriptionDetailInfo.setText(mProductInfo.getDescription());
         // Use glide to display product image on ImageView
-        Glide.with(ProductDetailActivity.this).load(productInfo.getProductImageUrl()).into(imvImageDetailInfo);
-        txvPriceDetailInfo.setText(productInfo.getPrice());
-        txvDimensionLength.setText(productInfo.getDimensions().getLength());
-        txvDimensionWidth.setText(productInfo.getDimensions().getWidth());
-        txvDimensionHeight.setText(productInfo.getDimensions().getHeight());
-        txvLongitudeDetailInfo.setText(productInfo.getWarehouseLocation().getLongitude());
-        txvLatitudeDetailInfo.setText(productInfo.getWarehouseLocation().getLatitude());
+        Glide.with(ProductDetailActivity.this).load(mProductInfo.getProductImageUrl()).into(imvImageDetailInfo);
+        txvPriceDetailInfo.setText(mProductInfo.getPrice());
+        txvDimensionLength.setText(mProductInfo.getDimensions().getLength());
+        txvDimensionWidth.setText(mProductInfo.getDimensions().getWidth());
+        txvDimensionHeight.setText(mProductInfo.getDimensions().getHeight());
+        txvLongitudeDetailInfo.setText(mProductInfo.getWarehouseLocation().getLongitude());
+        txvLatitudeDetailInfo.setText(mProductInfo.getWarehouseLocation().getLatitude());
 
-        btnCallDetailInfo.setText(productInfo.getProductPhone());
+        btnCallDetailInfo.setText(mProductInfo.getProductPhone());
         // Attach a click listener on call button to make a phone call when user clicks on it
         btnCallDetailInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_DIAL);
-                intent.setData(Uri.parse("tel:" + productInfo.getProductPhone()));
+                intent.setData(Uri.parse("tel:" + mProductInfo.getProductPhone()));
                 if (intent.resolveActivity(getPackageManager()) != null) {
                     startActivity(intent);
                 }
@@ -103,7 +102,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         btnWebDetailInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Uri webPage = Uri.parse(productInfo.getProductWebUrl());
+                Uri webPage = Uri.parse(mProductInfo.getProductWebUrl());
                 Intent intent = new Intent(Intent.ACTION_VIEW, webPage);
                 if (intent.resolveActivity(getPackageManager()) != null) {
                     startActivity(intent);
