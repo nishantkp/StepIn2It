@@ -13,4 +13,14 @@
     <color name="secondaryTextColor">#616161</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="priceTextColor">#00695C</color>
+
+    <!-- Tab layout color scheme -->
+    <color name="tabIndicatorColor">#E1F5FE</color>
+    <color name="tabTextColor">#81D4FA</color>
+    <color name="tabSelectedTextColor">@color/tabIndicatorColor</color>
+
+    <!-- Gradient color scheme for price label -->
+    <color name="priceLabelGradientCenter">#26A69A</color>
+    <color name="priceLabelGradientEnd">#00E676</color>
+    <color name="priceLabelGradientStart">#29B6F6</color>
 </resources>

@@ -1,6 +1,7 @@
 package com.stepin2it.ui.activity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -15,6 +16,8 @@ import com.stepin2it.ui.fragments.ProductInfoFragment;
 import com.stepin2it.ui.fragments.ProductMapFragment;
 import com.stepin2it.ui.models.ProductInfo;
 import com.stepin2it.utils.IConstants;
+
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,6 +38,9 @@ public class ProductDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_product_details);
 
         ButterKnife.bind(ProductDetailsActivity.this);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Objects.requireNonNull(getSupportActionBar()).setElevation(0);
+        }
 
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra(IConstants.KEY_PRODUCT_DETAIL_PARCELABLE)) {
@@ -70,11 +76,11 @@ public class ProductDetailsActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "Info";
+                    return getString(R.string.info_label);
                 case 1:
-                    return "Image";
+                    return getString(R.string.image_label);
                 case 2:
-                    return "Location";
+                    return getString(R.string.location_label);
             }
             return "";
         }
