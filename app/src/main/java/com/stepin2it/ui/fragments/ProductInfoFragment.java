@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.stepin2it.R;
+import com.stepin2it.ui.activity.ProductDetailsActivity;
 import com.stepin2it.ui.models.ProductInfo;
 import com.stepin2it.utils.IConstants;
 
@@ -99,7 +100,7 @@ public class ProductInfoFragment extends Fragment {
         // Get the each detail from productInfo and display it appropriately
         txvNameDetailInfo.setText(mProductInfo.getProductName());
         txvDescriptionDetailInfo.setText(mProductInfo.getDescription());
-        txvPriceDetailInfo.setText(mProductInfo.getPrice());
+        //txvPriceDetailInfo.setText(mProductInfo.getPrice());
         txvDimensionLength.setText(mProductInfo.getDimensions().getLength());
         txvDimensionWidth.setText(mProductInfo.getDimensions().getWidth());
         txvDimensionHeight.setText(mProductInfo.getDimensions().getHeight());
@@ -121,10 +122,15 @@ public class ProductInfoFragment extends Fragment {
         btnWebDetailInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Uri webPage = Uri.parse(mProductInfo.getProductWebUrl());
-                Intent intent = new Intent(Intent.ACTION_VIEW, webPage);
-                if (intent.resolveActivity(getContext().getPackageManager()) != null) {
-                    startActivity(intent);
+                ProductDetailsActivity productDetailsActivity = (ProductDetailsActivity) getActivity();
+                if (productDetailsActivity != null) {
+                    productDetailsActivity.openWebViewTab();
+                } else {
+                    Uri webPage = Uri.parse(mProductInfo.getProductWebUrl());
+                    Intent intent = new Intent(Intent.ACTION_VIEW, webPage);
+                    if (intent.resolveActivity(getContext().getPackageManager()) != null) {
+                        startActivity(intent);
+                    }
                 }
             }
         });

@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.stepin2it.R;
 import com.stepin2it.ui.fragments.ProductInfoFragment;
 import com.stepin2it.ui.fragments.ProductMapFragment;
+import com.stepin2it.ui.fragments.WebFragment;
 import com.stepin2it.ui.models.ProductInfo;
 import com.stepin2it.utils.IConstants;
 
@@ -52,6 +53,11 @@ public class ProductDetailsActivity extends AppCompatActivity {
         tblProductDetail.setupWithViewPager(vpProductDetail);
     }
 
+    // Jump to web-tab when user clicks on web button from info-fragment
+    public void openWebViewTab() {
+        vpProductDetail.setCurrentItem(3);
+    }
+
     private class ProductDetailPagerAdapter extends FragmentStatePagerAdapter {
 
         public ProductDetailPagerAdapter(FragmentManager fm) {
@@ -67,6 +73,8 @@ public class ProductDetailsActivity extends AppCompatActivity {
                     return ProductInfoFragment.newInstance(mProductInfo);
                 case 2:
                     return ProductMapFragment.newInstance(mProductInfo.getWarehouseLocation());
+                case 3:
+                    return WebFragment.newInstance(mProductInfo.getProductWebUrl());
             }
             return null;
         }
@@ -81,13 +89,15 @@ public class ProductDetailsActivity extends AppCompatActivity {
                     return getString(R.string.image_label);
                 case 2:
                     return getString(R.string.location_label);
+                case 3:
+                    return "Web";
             }
             return "";
         }
 
         @Override
         public int getCount() {
-            return 3;
+            return 4;
         }
     }
 }
