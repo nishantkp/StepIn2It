@@ -51,4 +51,35 @@
         android:textColor="@color/primaryTextColor"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_start_service"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Start service"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_settings_logout" />
+
+    <Button
+        android:id="@+id/btn_stop_service"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Stop service"
+        app:layout_constraintEnd_toEndOf="@+id/btn_start_service"
+        app:layout_constraintStart_toStartOf="@+id/btn_start_service"
+        app:layout_constraintTop_toBottomOf="@+id/btn_start_service" />
+
+    <TextView
+        android:id="@+id/tv_show_action"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_stop_service"
+        tools:text="TextView" />
 </android.support.constraint.ConstraintLayout>

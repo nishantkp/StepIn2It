@@ -53,6 +53,7 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCzyteUEKvdEK-GnOReHqOb58DqAmb1PY8" />
+        <service android:name=".service.MusicPlayerService" />
     </application>
 
 </manifest>

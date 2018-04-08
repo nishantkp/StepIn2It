@@ -35,5 +35,19 @@ public interface IConstants {
         int CONNECT_TIME_OUT = 15000;
         int SUCCESS_RESPONSE_CODE = 200;
     }
+
+    interface IActions {
+        String START_MUSIC_PLAYER = "START_MUSIC_PLAYER";
+        String STOP_MUSIC_PLAYER = "STOP_MUSIC_PLAYER";
+        String ACTION_MAIN = "ACTION_MAIN";
+        String ACTION_PLAY = "ACTION_PLAY";
+        String ACTION_PAUSE = "ACTION_PAUSE";
+        String ACTION_NEXT = "ACTION_NEXT";
+        String ACTION_PREVIOUS = "ACTION_PREVIOUS";
+    }
+
+    interface INotification {
+        int ID_MUSIC_NOTIFICATION = 100;
+    }
 }
 
