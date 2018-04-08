@@ -40,7 +40,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.stepin2it.ui.activity.DashBoardActivity" />
         </activity>
-        <activity android:name=".ui.activity.ProductDetailsActivity"></activity>
+        <activity
+            android:name=".ui.activity.ProductDetailsActivity"
+            android:parentActivityName=".ui.activity.DashBoardActivity">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.stepin2it.ui.activity.DashBoardActivity" />
+        </activity>
 
         <!--API key for google maps -->
         <meta-data
