@@ -1,14 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragments.ProductInfoFragment">
+    android:background="@color/colorWhite">
 
-    <TextView
-        android:id="@+id/tem"
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:padding="16dp">
 
-</FrameLayout>
+        <TextView
+            android:id="@+id/txv_name_detail_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:fontFamily="sans-serif-medium"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/imv_image_detail_info"
+            app:layout_constraintTop_toTopOf="@+id/imv_image_detail_info"
+            tools:text="iPhone X" />
+
+        <ImageView
+            android:id="@+id/imv_image_detail_info"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/splash_screen_background" />
+
+        <TextView
+            android:id="@+id/txv_description_detail_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="@+id/txv_name_detail_info"
+            app:layout_constraintTop_toBottomOf="@+id/txv_name_detail_info"
+            tools:text="Product Description" />
+
+        <TextView
+            android:id="@+id/txv_price_detail_info_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/price_background"
+            android:fontFamily="sans-serif-medium"
+            android:paddingBottom="4dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="4dp"
+            android:gravity="center"
+            android:text="Price"
+            android:textColor="@color/colorWhite"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline"
+            app:layout_constraintStart_toStartOf="@+id/guideline"
+            app:layout_constraintTop_toBottomOf="@+id/include" />
+
+        <include
+            android:id="@+id/include"
+            layout="@layout/dimensions_table"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_web_detail_info" />
+
+        <TextView
+            android:id="@+id/txv_price_detail_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:textColor="@color/priceTextColor"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="@+id/txv_price_detail_info_label"
+            app:layout_constraintStart_toStartOf="@+id/txv_price_detail_info_label"
+            app:layout_constraintTop_toBottomOf="@+id/txv_price_detail_info_label"
+            tools:text="$1452" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+        <Button
+            android:id="@+id/btn_web_detail_info"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:drawableLeft="@drawable/ic_internet"
+            android:drawablePadding="16dp"
+            android:drawableStart="@drawable/ic_internet"
+            android:text="Web"
+            app:layout_constraintStart_toStartOf="@+id/btn_call_detail_info"
+            app:layout_constraintTop_toBottomOf="@+id/btn_call_detail_info" />
+
+        <Button
+            android:id="@+id/btn_call_detail_info"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:drawableLeft="@drawable/ic_phone_receiver"
+            android:drawablePadding="16dp"
+            android:drawableStart="@drawable/ic_phone_receiver"
+            android:text="+1-(123)-123-1234"
+            app:layout_constraintStart_toStartOf="@+id/imv_image_detail_info"
+            app:layout_constraintTop_toBottomOf="@+id/imv_image_detail_info" />
+
+    </android.support.constraint.ConstraintLayout>
+</ScrollView>
