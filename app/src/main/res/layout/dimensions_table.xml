@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/imv_dimension_header_backdround"
+        android:id="@+id/imv_dimension_header_background"
         android:layout_width="0dp"
         android:layout_height="36dp"
         android:background="#37474F"
@@ -24,10 +24,10 @@
         android:text="@string/width_label"
         android:textColor="@color/colorWhite"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/imv_dimension_header_backdround"
+        app:layout_constraintBottom_toBottomOf="@+id/imv_dimension_header_background"
         app:layout_constraintEnd_toStartOf="@+id/txv_dimension_length_label"
         app:layout_constraintHorizontal_bias="0.50"
-        app:layout_constraintStart_toStartOf="@+id/imv_dimension_header_backdround"
+        app:layout_constraintStart_toStartOf="@+id/imv_dimension_header_background"
         app:layout_constraintTop_toTopOf="@+id/txv_dimension_length_label" />
 
     <TextView
@@ -38,10 +38,10 @@
         android:text="@string/length_label"
         android:textColor="@color/colorWhite"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/imv_dimension_header_backdround"
-        app:layout_constraintEnd_toEndOf="@+id/imv_dimension_header_backdround"
-        app:layout_constraintStart_toStartOf="@+id/imv_dimension_header_backdround"
-        app:layout_constraintTop_toTopOf="@+id/imv_dimension_header_backdround" />
+        app:layout_constraintBottom_toBottomOf="@+id/imv_dimension_header_background"
+        app:layout_constraintEnd_toEndOf="@+id/imv_dimension_header_background"
+        app:layout_constraintStart_toStartOf="@+id/imv_dimension_header_background"
+        app:layout_constraintTop_toTopOf="@+id/imv_dimension_header_background" />
 
     <TextView
         android:id="@+id/txv_dimension_height_label"
@@ -52,7 +52,7 @@
         android:textColor="@color/colorWhite"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/txv_dimension_length_label"
-        app:layout_constraintEnd_toEndOf="@+id/imv_dimension_header_backdround"
+        app:layout_constraintEnd_toEndOf="@+id/imv_dimension_header_background"
         app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toEndOf="@+id/txv_dimension_length_label"
         app:layout_constraintTop_toTopOf="@+id/txv_dimension_length_label" />
@@ -63,9 +63,9 @@
         android:layout_height="36dp"
         android:background="#81D4FA"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/imv_dimension_header_backdround"
+        app:layout_constraintEnd_toEndOf="@+id/imv_dimension_header_background"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/imv_dimension_header_backdround"
+        app:layout_constraintStart_toStartOf="@+id/imv_dimension_header_background"
         app:layout_constraintTop_toBottomOf="@+id/txv_dimension_length_label" />
 
     <TextView
@@ -74,12 +74,12 @@
         android:layout_height="0dp"
         android:fontFamily="sans-serif-medium"
         android:gravity="center"
-        tools:text="12"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/imv_dimension_value_background"
         app:layout_constraintEnd_toEndOf="@+id/txv_dimension_width_label"
         app:layout_constraintStart_toStartOf="@+id/txv_dimension_width_label"
-        app:layout_constraintTop_toTopOf="@+id/imv_dimension_value_background" />
+        app:layout_constraintTop_toTopOf="@+id/imv_dimension_value_background"
+        tools:text="12" />
 
     <TextView
         android:id="@+id/txv_dimension_length"
@@ -87,12 +87,12 @@
         android:layout_height="0dp"
         android:fontFamily="sans-serif-medium"
         android:gravity="center"
-        tools:text="8"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/imv_dimension_value_background"
         app:layout_constraintEnd_toEndOf="@+id/txv_dimension_length_label"
         app:layout_constraintStart_toStartOf="@+id/txv_dimension_length_label"
-        app:layout_constraintTop_toTopOf="@+id/imv_dimension_value_background" />
+        app:layout_constraintTop_toTopOf="@+id/imv_dimension_value_background"
+        tools:text="8" />
 
     <TextView
         android:id="@+id/txv_dimension_height"
@@ -100,11 +100,11 @@
         android:layout_height="0dp"
         android:fontFamily="sans-serif-medium"
         android:gravity="center"
-        tools:text="23"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/imv_dimension_value_background"
         app:layout_constraintEnd_toEndOf="@+id/txv_dimension_height_label"
         app:layout_constraintStart_toStartOf="@+id/txv_dimension_height_label"
-        app:layout_constraintTop_toTopOf="@+id/imv_dimension_value_background" />
+        app:layout_constraintTop_toTopOf="@+id/imv_dimension_value_background"
+        tools:text="23" />
 
 </android.support.constraint.ConstraintLayout>
