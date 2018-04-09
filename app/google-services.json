@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "329757105280",
+    "firebase_url": "https://my-project-1523126626856.firebaseio.com",
+    "project_id": "my-project-1523126626856",
+    "storage_bucket": "my-project-1523126626856.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:329757105280:android:76896ad108b4ea8c",
+        "android_client_info": {
+          "package_name": "com.stepin2it"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "329757105280-rg007fbhs1lhtlo5768tcs4gqgv7mpps.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBiEIhx4rIP59gKfVG4xuwMYAUHcsS1L98"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
