@@ -42,7 +42,8 @@
         </activity>
         <activity
             android:name=".ui.activity.ProductDetailsActivity"
-            android:parentActivityName=".ui.activity.DashBoardActivity">
+            android:parentActivityName=".ui.activity.DashBoardActivity"
+            android:theme="@style/DetailActivityTheme">
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

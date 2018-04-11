@@ -14,4 +14,16 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!-- Detail Activity theme -->
+    <style name="DetailActivityTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowActionBarOverlay">true</item>
+        <item name="windowNoTitle">true</item>
+        <!-- Helps changing status bar colour dynamically with CollapseActionView-->
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+    </style>
+
 </resources>

@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.stepin2it.R;
 import com.stepin2it.ui.activity.ProductDetailsActivity;
 import com.stepin2it.ui.models.ProductInfo;
@@ -136,9 +135,9 @@ public class ProductInfoFragment extends Fragment {
         });
 
         // If we have multiple images for a single product, select the first image to display
-        if (mProductInfo.getImageList().size() > 0) {
-            Glide.with(getActivity()).load(mProductInfo.getImageList().get(0)).into(imvImageDetailInfo);
-        }
+//        if (mProductInfo.getImageList().size() > 0) {
+//            Glide.with(getActivity()).load(mProductInfo.getImageList().get(0)).into(imvImageDetailInfo);
+//        }
     }
 
     @Override
