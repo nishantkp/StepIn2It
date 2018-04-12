@@ -15,31 +15,28 @@
             android:id="@+id/txv_name_detail_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
-            android:fontFamily="sans-serif-medium"
-            android:textSize="24sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:fontFamily="times"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="26sp"
+            android:textStyle=""
+            app:layout_constraintEnd_toStartOf="@+id/txv_price_detail_info_label"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/imv_image_detail_info"
-            app:layout_constraintTop_toTopOf="@+id/imv_image_detail_info"
-            tools:text="iPhone X" />
-
-        <ImageView
-            android:id="@+id/imv_image_detail_info"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/splash_screen_background" />
+            tools:text="iPhone X" />
 
         <TextView
             android:id="@+id/txv_description_detail_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
             android:fontFamily="sans-serif-light"
+            android:textColor="@color/primaryTextColor"
             android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/txv_price_detail_info"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/txv_name_detail_info"
             app:layout_constraintTop_toBottomOf="@+id/txv_name_detail_info"
@@ -48,8 +45,7 @@
         <TextView
             android:id="@+id/txv_price_detail_info_label"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_height="36dp"
             android:background="@drawable/price_background"
             android:fontFamily="sans-serif-medium"
             android:gravity="center"
@@ -61,18 +57,9 @@
             android:textColor="@color/colorWhite"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/include" />
-
-        <include
-            android:id="@+id/include"
-            layout="@layout/dimensions_table"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_web_detail_info" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/txv_price_detail_info"
@@ -89,28 +76,136 @@
         <Button
             android:id="@+id/btn_web_detail_info"
             style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="wrap_content"
+            android:layout_width="96dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:drawableLeft="@drawable/ic_internet"
             android:drawablePadding="16dp"
             android:drawableStart="@drawable/ic_internet"
             android:text="@string/web_label"
-            app:layout_constraintStart_toStartOf="@+id/btn_call_detail_info"
-            app:layout_constraintTop_toBottomOf="@+id/btn_call_detail_info" />
+            app:layout_constraintBottom_toBottomOf="@+id/btn_call_detail_info"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/btn_call_detail_info"
+            app:layout_constraintTop_toTopOf="@+id/btn_call_detail_info" />
 
         <Button
             android:id="@+id/btn_call_detail_info"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="24dp"
             android:drawableLeft="@drawable/ic_phone_receiver"
             android:drawablePadding="16dp"
             android:drawableStart="@drawable/ic_phone_receiver"
             android:text="+1-(123)-123-1234"
-            app:layout_constraintStart_toStartOf="@+id/imv_image_detail_info"
-            app:layout_constraintTop_toBottomOf="@+id/imv_image_detail_info" />
+            app:layout_constraintEnd_toStartOf="@+id/btn_web_detail_info"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txv_contact_label" />
+
+        <TextView
+            android:id="@+id/txv_dimension_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:fontFamily="sans-serif-smallcaps"
+            android:text="Dimensions"
+            android:textColor="@color/primaryTextColor"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txv_description_detail_info" />
+
+        <TextView
+            android:id="@+id/txv_dimension_width_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="32dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="24dp"
+            android:text="Width"
+            android:textColor="@color/secondaryTextColor"
+            app:layout_constraintStart_toStartOf="@+id/txv_dimension_label"
+            app:layout_constraintTop_toBottomOf="@+id/txv_dimension_label" />
+
+        <TextView
+            android:id="@+id/txv_dimension_height_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Height"
+            android:textColor="@color/secondaryTextColor"
+            app:layout_constraintStart_toStartOf="@+id/txv_dimension_width_label"
+            app:layout_constraintTop_toBottomOf="@+id/txv_dimension_width_label" />
+
+        <TextView
+            android:id="@+id/txv_dimension_length_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Length"
+            android:textColor="@color/secondaryTextColor"
+            app:layout_constraintStart_toStartOf="@+id/txv_dimension_height_label"
+            app:layout_constraintTop_toBottomOf="@+id/txv_dimension_height_label" />
+
+        <TextView
+            android:id="@+id/txv_dimension_weight_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Weight"
+            android:textColor="@color/secondaryTextColor"
+            app:layout_constraintStart_toStartOf="@+id/txv_dimension_length_label"
+            app:layout_constraintTop_toBottomOf="@+id/txv_dimension_length_label" />
+
+        <TextView
+            android:id="@+id/txv_dimension_width"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="32dp"
+            android:layout_marginStart="32dp"
+            android:text="2"
+            android:textColor="@color/secondaryTextColor"
+            app:layout_constraintBaseline_toBaselineOf="@+id/txv_dimension_width_label"
+            app:layout_constraintStart_toEndOf="@+id/txv_dimension_width_label" />
+
+        <TextView
+            android:id="@+id/txv_dimension_height"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="7"
+            android:textColor="@color/secondaryTextColor"
+            app:layout_constraintBaseline_toBaselineOf="@+id/txv_dimension_height_label"
+            app:layout_constraintStart_toStartOf="@+id/txv_dimension_width" />
+
+        <TextView
+            android:id="@+id/txv_dimension_length"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="13"
+            android:textColor="@color/secondaryTextColor"
+            app:layout_constraintBaseline_toBaselineOf="@+id/txv_dimension_length_label"
+            app:layout_constraintStart_toStartOf="@+id/txv_dimension_height" />
+
+        <TextView
+            android:id="@+id/txv_dimension_weight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="500g"
+            android:textColor="@color/secondaryTextColor"
+            app:layout_constraintBaseline_toBaselineOf="@+id/txv_dimension_weight_label"
+            app:layout_constraintStart_toStartOf="@+id/txv_dimension_length" />
+
+        <TextView
+            android:id="@+id/txv_contact_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:fontFamily="sans-serif-smallcaps"
+            android:text="Contact"
+            android:textColor="@color/primaryTextColor"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txv_dimension_weight_label" />
 
     </android.support.constraint.ConstraintLayout>
 </android.support.v4.widget.NestedScrollView>

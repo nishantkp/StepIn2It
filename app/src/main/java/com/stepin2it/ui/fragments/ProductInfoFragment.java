@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.stepin2it.R;
@@ -52,8 +51,8 @@ public class ProductInfoFragment extends Fragment {
     @BindView(R.id.txv_dimension_height)
     TextView txvDimensionHeight;
 
-    @BindView(R.id.imv_image_detail_info)
-    ImageView imvImageDetailInfo;
+    @BindView(R.id.txv_dimension_weight)
+    TextView txvDimensionWeight;
 
     public ProductInfoFragment() {
         // Required empty public constructor
@@ -103,6 +102,7 @@ public class ProductInfoFragment extends Fragment {
         txvDimensionLength.setText(mProductInfo.getDimensions().getLength());
         txvDimensionWidth.setText(mProductInfo.getDimensions().getWidth());
         txvDimensionHeight.setText(mProductInfo.getDimensions().getHeight());
+        txvDimensionWeight.setText(mProductInfo.getWeight());
 
         btnCallDetailInfo.setText(mProductInfo.getProductPhone());
         // Attach a click listener on call button to make a phone call when user clicks on it
