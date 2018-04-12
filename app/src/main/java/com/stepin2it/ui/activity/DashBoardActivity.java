@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.Loader;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -50,6 +51,8 @@ public class DashBoardActivity extends BaseActivity
     ProgressBar pgbDashBoard;
     @BindView(R.id.txv_empty_view)
     TextView txvEmptyView;
+    @BindView(R.id.swipe_container)
+    SwipeRefreshLayout swipeContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

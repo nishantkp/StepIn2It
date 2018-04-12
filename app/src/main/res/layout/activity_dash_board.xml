@@ -6,10 +6,16 @@
     android:layout_height="match_parent"
     tools:context="com.stepin2it.ui.activity.DashBoardActivity">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_product_list"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_product_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <ProgressBar
         android:id="@+id/pgb_dash_board"
