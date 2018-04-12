@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.support.v7.widget.Toolbar;
 
 import com.stepin2it.R;
 import com.stepin2it.data.NetworkUtils;
@@ -54,6 +55,9 @@ public class DashBoardActivity extends BaseActivity
     @BindView(R.id.swipe_container)
     SwipeRefreshLayout swipeContainer;
 
+    @BindView(R.id.tb_dashboard)
+    Toolbar tbDashBoard;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +65,10 @@ public class DashBoardActivity extends BaseActivity
 
         // Bind view with butter knife library
         ButterKnife.bind(DashBoardActivity.this);
+
+        setSupportActionBar(tbDashBoard);
+        if (getSupportActionBar() != null)
+            getSupportActionBar().setTitle(R.string.dashboard_title);
 
         mRecyclerView = findViewById(R.id.rv_product_list);
 

@@ -30,7 +30,9 @@
         <activity
             android:name=".ui.activity.LoginActivity"
             android:configChanges="orientation|keyboardHidden|screenSize" />
-        <activity android:name=".ui.activity.DashBoardActivity" />
+        <activity
+            android:name=".ui.activity.DashBoardActivity"
+            android:theme="@style/DashBoardTheme" />
         <activity android:name=".ui.activity.ProductImageActivity" />
         <activity
             android:name=".ui.activity.SettingsActivity"
