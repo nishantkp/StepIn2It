@@ -98,7 +98,7 @@ public class ProductInfoFragment extends Fragment {
         // Get the each detail from productInfo and display it appropriately
         txvNameDetailInfo.setText(mProductInfo.getProductName());
         txvDescriptionDetailInfo.setText(mProductInfo.getDescription());
-        //txvPriceDetailInfo.setText(mProductInfo.getPrice());
+        txvPriceDetailInfo.setText(String.format("$%s", mProductInfo.getPrice()));
         txvDimensionLength.setText(mProductInfo.getDimensions().getLength());
         txvDimensionWidth.setText(mProductInfo.getDimensions().getWidth());
         txvDimensionHeight.setText(mProductInfo.getDimensions().getHeight());

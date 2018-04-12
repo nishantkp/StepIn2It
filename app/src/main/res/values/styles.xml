@@ -23,7 +23,7 @@
         <item name="windowNoTitle">true</item>
         <!-- Helps changing status bar colour dynamically with CollapseActionView-->
         <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowTranslucentNavigation">true</item>
+        <!--<item name="android:windowTranslucentNavigation">true</item>-->
     </style>
 
 </resources>
