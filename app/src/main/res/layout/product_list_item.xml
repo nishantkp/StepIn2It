@@ -13,8 +13,8 @@
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:textColor="@color/primaryTextColor"
-        android:textSize="20sp"
-        android:textStyle="bold"
+        android:textSize="16sp"
+        android:fontFamily="sans-serif-medium"
         app:layout_constraintBottom_toTopOf="@+id/ctl_guideline"
         app:layout_constraintStart_toEndOf="@+id/imv_product_image"
         tools:text="iPhone X" />
@@ -23,8 +23,9 @@
         android:id="@+id/txv_product_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/secondaryTextColor"
+        android:textColor="@color/primaryTextColor"
         android:textSize="16sp"
+        android:fontFamily="sans-serif-light"
         app:layout_constraintStart_toStartOf="@+id/txv_product_name"
         app:layout_constraintTop_toTopOf="@+id/ctl_guideline"
         tools:text="Product description" />
