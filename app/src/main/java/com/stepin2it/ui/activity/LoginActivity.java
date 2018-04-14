@@ -15,6 +15,7 @@ import com.stepin2it.data.NetworkUtils;
 import com.stepin2it.data.PreferenceHelper;
 import com.stepin2it.data.models.RqLogin;
 import com.stepin2it.data.models.RsToken;
+import com.stepin2it.ui.base.BaseActivity;
 import com.stepin2it.utils.IConstants;
 
 import butterknife.BindView;

@@ -23,6 +23,7 @@ import android.support.v7.widget.Toolbar;
 import com.stepin2it.R;
 import com.stepin2it.data.NetworkUtils;
 import com.stepin2it.ui.adapter.ProductAdapter;
+import com.stepin2it.ui.base.BaseActivity;
 import com.stepin2it.ui.models.ProductInfo;
 import com.stepin2it.utils.IConstants;
 
