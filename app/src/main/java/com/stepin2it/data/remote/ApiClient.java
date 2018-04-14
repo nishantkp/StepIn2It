@@ -4,6 +4,7 @@ import com.stepin2it.utils.IConstants;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
@@ -18,6 +19,7 @@ public class ApiClient {
         retrofit = new Retrofit.Builder()
                 .baseUrl(IConstants.IJsonServer.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(client)
                 .build();
 

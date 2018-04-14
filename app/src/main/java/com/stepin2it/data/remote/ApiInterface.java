@@ -1,11 +1,13 @@
 package com.stepin2it.data.remote;
 
+
 import com.stepin2it.data.models.RqLogin;
 import com.stepin2it.data.models.RsToken;
 import com.stepin2it.ui.models.ProductInfo;
 
 import java.util.List;
 
+import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -22,6 +24,14 @@ public interface ApiInterface {
      */
     @GET("/nishantkp/apitest/productData")
     Call<List<ProductInfo>> getProductInfo();
+
+    /**
+     * Call back method for getting product list
+     *
+     * @return list of products in Observable<> for Rx
+     */
+    @GET("/nishantkp/apitest/productData")
+    Observable<List<ProductInfo>> getProductInfoRx();
 
     /**
      * Callback method for sending username and password to

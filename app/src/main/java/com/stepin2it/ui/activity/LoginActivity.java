@@ -16,6 +16,7 @@ import com.stepin2it.data.PreferenceHelper;
 import com.stepin2it.data.models.RqLogin;
 import com.stepin2it.data.models.RsToken;
 import com.stepin2it.ui.base.BaseActivity;
+import com.stepin2it.ui.dashboard.DashBoardMvpActivity;
 import com.stepin2it.utils.IConstants;
 
 import butterknife.BindView;
@@ -90,7 +91,7 @@ public class LoginActivity extends BaseActivity {
                 .writeString(IConstants.IPreference.PREF_TOKEN, token);
         PreferenceHelper.getInstance(LoginActivity.this)
                 .writeString(IConstants.IPreference.PREF_USER_NAME, edtUserName.getText().toString().trim());
-        Intent intent = new Intent(LoginActivity.this, DashBoardActivity.class);
+        Intent intent = new Intent(LoginActivity.this, DashBoardMvpActivity.class);
         startActivity(intent);
         finish();
     }
