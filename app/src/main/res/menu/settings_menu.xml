@@ -6,4 +6,8 @@
         android:orderInCategory="8956"
         android:title="@string/settings_label"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_test"
+        android:title="Test"
+        app:showAsAction="always" />
 </menu>

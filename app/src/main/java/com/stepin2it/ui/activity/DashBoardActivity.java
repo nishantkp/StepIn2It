@@ -31,6 +31,12 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -50,6 +56,8 @@ public class DashBoardActivity extends BaseActivity
     ProgressBar pgbDashBoard;
     @BindView(R.id.txv_empty_view)
     TextView txvEmptyView;
+
+    private Disposable mDisposable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +84,15 @@ public class DashBoardActivity extends BaseActivity
                 , DashBoardActivity.this, null);
         mRecyclerView.setAdapter(mProductAdapter);
         displayProductList();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mDisposable != null && !mDisposable.isDisposed()) {
+            mDisposable.dispose();
+            Timber.d("in onDestroy()");
+        }
     }
 
     /**
@@ -270,8 +287,61 @@ public class DashBoardActivity extends BaseActivity
                 Intent settingsIntent = new Intent(DashBoardActivity.this, SettingsActivity.class);
                 startActivity(settingsIntent);
                 return true;
+            case R.id.action_test:
+                // Perform text to getting started with Rx
+                testRx();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    /**
+     * Getting started with Rx "Sample"
+     */
+    private void testRx() {
+        Observable<String> observable = Observable.just(1, 2, 3, 4, 5).flatMap(new Function<Integer, Observable<String>>() {
+            @Override
+            public Observable<String> apply(Integer integer) throws Exception {
+                String data = null;
+                switch (integer) {
+                    case 1:
+                        data = "one";
+                        break;
+                    case 2:
+                        data = "two";
+                        break;
+                    case 3:
+                        data = "three";
+                        break;
+                    default:
+                        data = "No case";
+                        break;
+                }
+                Thread.sleep(10000);
+                return Observable.just(data);
+            }
+        }).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread());
+        observable.subscribe(new Observer<String>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+                mDisposable = d;
+            }
+
+            @Override
+            public void onNext(String string) {
+                Timber.d("Next : %s", string);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Timber.d("Error");
+            }
+
+            @Override
+            public void onComplete() {
+                Timber.d("Complete!");
+            }
+        });
     }
 }
