@@ -219,4 +219,11 @@ public class DatabaseHelper {
         cursor.close();
         return imageList;
     }
+
+    /**
+     * Delete all data from product table
+     */
+    public void deleteAllData() {
+        sDatabase.delete(IDatabase.IProductTable.TABLE_NAME, null, null);
+    }
 }
