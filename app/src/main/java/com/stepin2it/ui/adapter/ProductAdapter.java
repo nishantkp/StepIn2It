@@ -88,6 +88,15 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         notifyDataSetChanged();
     }
 
+    /**
+     * This method is used to clear all existing data from adapter whenever new batch of data is
+     * about to load.
+     */
+    public void clearData() {
+        mProductInfoList.clear();
+        notifyDataSetChanged();
+    }
+
     /*
      * An on-click handler that we've defined to make it easy for an Activity to interface with
      * our RecyclerView

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.Loader;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -17,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.support.v7.widget.Toolbar;
 
 import com.stepin2it.R;
 import com.stepin2it.data.NetworkUtils;
@@ -56,6 +58,11 @@ public class DashBoardActivity extends BaseActivity
     ProgressBar pgbDashBoard;
     @BindView(R.id.txv_empty_view)
     TextView txvEmptyView;
+    @BindView(R.id.swipe_container)
+    SwipeRefreshLayout swipeContainer;
+
+    @BindView(R.id.tb_dashboard)
+    Toolbar tbDashBoard;
 
     private Disposable mDisposable;
 
@@ -66,6 +73,10 @@ public class DashBoardActivity extends BaseActivity
 
         // Bind view with butter knife library
         ButterKnife.bind(DashBoardActivity.this);
+
+        setSupportActionBar(tbDashBoard);
+        if (getSupportActionBar() != null)
+            getSupportActionBar().setTitle(R.string.dashboard_title);
 
         mRecyclerView = findViewById(R.id.rv_product_list);
 
@@ -83,6 +94,15 @@ public class DashBoardActivity extends BaseActivity
         mProductAdapter = new ProductAdapter(DashBoardActivity.this
                 , DashBoardActivity.this, null);
         mRecyclerView.setAdapter(mProductAdapter);
+
+        // Attach listener on swipe refresh container to perform refresh operation
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshListonSwipeAction();
+            }
+        });
+
         displayProductList();
     }
 
@@ -92,6 +112,39 @@ public class DashBoardActivity extends BaseActivity
         if (mDisposable != null && !mDisposable.isDisposed()) {
             mDisposable.dispose();
             Timber.d("in onDestroy()");
+        }
+    }
+
+    /**
+     * Call this method to refresh the content when user performs swipe to refresh operation
+     */
+    private void refreshListonSwipeAction() {
+        if (NetworkUtils.isNetworkAvailable(DashBoardActivity.this)) {
+            Call<List<ProductInfo>> call = mApiInterface.getProductInfo();
+            call.enqueue(new Callback<List<ProductInfo>>() {
+                @Override
+                public void onResponse(Call<List<ProductInfo>> call, Response<List<ProductInfo>> response) {
+                    if (response.body() != null) {
+                        // If we get something in response, delete the data from cache(i.e stored in
+                        // database table) and insert new batch of data
+                        pgbDashBoard.setVisibility(View.GONE);
+                        mDatabaseHelper.deleteAllData();
+                        mProductAdapter.clearData();
+                        mDatabaseHelper.insertProducts(response.body());
+                        mProductAdapter.swapData(response.body());
+                        // Call setRefreshing(false) to signal refresh has finished
+                        swipeContainer.setRefreshing(false);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<List<ProductInfo>> call, Throwable t) {
+                }
+            });
+        } else {
+            Toast.makeText(DashBoardActivity.this,
+                    getResources().getString(R.string.enable_your_internet_connection),
+                    Toast.LENGTH_SHORT).show();
         }
     }
 

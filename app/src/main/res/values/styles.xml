@@ -26,4 +26,7 @@
         <!--<item name="android:windowTranslucentNavigation">true</item>-->
     </style>
 
+    <!-- Dashboard activity theme -->
+    <style name="DashBoardTheme" parent="SplashScreenTheme" />
+
 </resources>
