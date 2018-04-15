@@ -2,8 +2,10 @@ package com.stepin2it;
 
 import android.app.Application;
 
+import com.crashlytics.android.Crashlytics;
 import com.facebook.stetho.Stetho;
 
+import io.fabric.sdk.android.Fabric;
 import timber.log.Timber;
 
 public class Stepin2ItApplication extends Application {
@@ -11,6 +13,11 @@ public class Stepin2ItApplication extends Application {
     public void onCreate() {
         super.onCreate();
         Stetho.initializeWithDefaults(Stepin2ItApplication.this);
+        final Fabric fabric = new Fabric.Builder(this)
+                .kits(new Crashlytics())
+                .debuggable(true)
+                .build();
+        Fabric.with(fabric);
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
         }

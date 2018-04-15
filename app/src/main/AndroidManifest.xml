@@ -62,6 +62,10 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCzyteUEKvdEK-GnOReHqOb58DqAmb1PY8" />
+        <!-- API Key for fabric -->
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="ade973c30972fcc41b458af56488a7bac57e7e94" />
 
         <service android:name=".service.MusicPlayerService" />
         <service android:name=".service.MyFireBaseMessagingService">
