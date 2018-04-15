@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.stepin2it.R;
 import com.stepin2it.ui.dashboard.DashBoardMvpActivity;
+import com.stepin2it.ui.login.LoginMvpActivity;
 import com.stepin2it.utils.IConstants;
 import com.stepin2it.data.PreferenceHelper;
 
@@ -43,7 +44,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         if (PreferenceHelper.getInstance(SplashScreenActivity.this).readString(IConstants.IPreference.PREF_TOKEN) != null) {
             loginIntent = new Intent(SplashScreenActivity.this, DashBoardMvpActivity.class);
         } else {
-            loginIntent = new Intent(SplashScreenActivity.this, LoginActivity.class);
+            loginIntent = new Intent(SplashScreenActivity.this, LoginMvpActivity.class);
         }
         startActivity(loginIntent);
         finish();

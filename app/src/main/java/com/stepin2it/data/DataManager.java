@@ -3,9 +3,12 @@ package com.stepin2it.data;
 import android.content.Context;
 
 import com.stepin2it.data.local.DatabaseHelper;
+import com.stepin2it.data.models.RqLogin;
+import com.stepin2it.data.models.RsToken;
 import com.stepin2it.data.remote.ApiClient;
 import com.stepin2it.data.remote.ApiInterface;
 import com.stepin2it.ui.models.ProductInfo;
+import com.stepin2it.utils.IConstants;
 
 import java.util.List;
 
@@ -43,5 +46,9 @@ public class DataManager {
         } else {
             return productInfoList.size() > 0 ? Observable.just(productInfoList) : null;
         }
+    }
+
+    public Observable<RsToken> getToken(RqLogin rqLogin) {
+        return sApiInterface.loginRx(IConstants.IReqres.REQUEST_URL_STRING, rqLogin);
     }
 }

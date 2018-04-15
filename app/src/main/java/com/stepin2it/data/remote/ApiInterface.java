@@ -43,4 +43,7 @@ public interface ApiInterface {
      */
     @POST
     Call<RsToken> login(@Url String url, @Body RqLogin rqLogin);
+
+    @POST
+    Observable<RsToken> loginRx(@Url String Url, @Body RqLogin rqLogin);
 }
