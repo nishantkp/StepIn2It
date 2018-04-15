@@ -8,20 +8,33 @@ import android.text.TextUtils;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.stepin2it.R;
+import com.stepin2it.data.PreferenceHelper;
 import com.stepin2it.ui.dashboard.DashBoardMvpActivity;
+import com.stepin2it.utils.IConstants;
+
+import java.util.Arrays;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import timber.log.Timber;
 
 public class LoginMvpActivity extends AppCompatActivity implements LoginMvpView {
     @BindView(R.id.edt_user_name)
     EditText edtUserName;
     @BindView(R.id.edt_password)
     EditText edtPassword;
+    @BindView(R.id.btn_fb_login)
+    LoginButton btnFbLogin;
 
     LoginMvpPresenter loginMvpPresenter;
+    CallbackManager callbackManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -29,9 +42,41 @@ public class LoginMvpActivity extends AppCompatActivity implements LoginMvpView 
         setContentView(R.layout.activity_login);
 
         ButterKnife.bind(LoginMvpActivity.this);
+        facebookLoginSetUp();
         loginMvpPresenter = new LoginMvpPresenter(this);
 
         loginMvpPresenter.attachView(this);
+    }
+
+    private void facebookLoginSetUp() {
+        callbackManager = CallbackManager.Factory.create();
+        btnFbLogin.setReadPermissions(Arrays.asList("email"));
+        btnFbLogin.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                Timber.d("Login Token : %s", loginResult.getAccessToken().getToken());
+                PreferenceHelper.getInstance(LoginMvpActivity.this)
+                        .writeString(IConstants.IPreference.PREF_TOKEN, loginResult.getAccessToken().getToken());
+                loginToken(loginResult.getAccessToken().getToken());
+                // App code
+            }
+
+            @Override
+            public void onCancel() {
+                // App code
+            }
+
+            @Override
+            public void onError(FacebookException exception) {
+                // App code
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     private boolean validateLogin() {
