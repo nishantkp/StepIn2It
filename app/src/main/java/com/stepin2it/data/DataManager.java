@@ -13,6 +13,7 @@ import com.stepin2it.utils.IConstants;
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
 import io.reactivex.functions.Function;
 
 public class DataManager {
@@ -20,12 +21,14 @@ public class DataManager {
     private static ApiInterface sApiInterface;
     private static DatabaseHelper sDatabaseHelper;
     private static Context mContext;
+    private static PreferenceHelper sPreferenceHelper;
 
     public static DataManager getInstance(Context context) {
         if (sDataManager == null) {
             sDataManager = new DataManager();
             sApiInterface = ApiClient.getClient().create(ApiInterface.class);
             sDatabaseHelper = DatabaseHelper.getInstance(context);
+            sPreferenceHelper = PreferenceHelper.getInstance(context);
         }
         mContext = context;
         return sDataManager;
@@ -48,7 +51,15 @@ public class DataManager {
         }
     }
 
-    public Observable<RsToken> getToken(RqLogin rqLogin) {
-        return sApiInterface.loginRx(IConstants.IReqres.REQUEST_URL_STRING, rqLogin);
+    public Observable<RsToken> getToken(final RqLogin rqLogin) {
+        return sApiInterface.loginRx(IConstants.IReqres.REQUEST_URL_STRING, rqLogin)
+                .flatMap(new Function<RsToken, ObservableSource<RsToken>>() {
+                    @Override
+                    public ObservableSource<RsToken> apply(RsToken rsToken) throws Exception {
+                        sPreferenceHelper.writeString(IConstants.IPreference.PREF_TOKEN, rsToken.getToken());
+                        sPreferenceHelper.writeString(IConstants.IPreference.PREF_USER_NAME, rqLogin.getEmail());
+                        return Observable.just(rsToken);
+                    }
+                });
     }
 }
