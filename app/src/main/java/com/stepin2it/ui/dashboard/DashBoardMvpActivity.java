@@ -1,5 +1,6 @@
 package com.stepin2it.ui.dashboard;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -12,9 +13,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.stepin2it.R;
+import com.stepin2it.ui.activity.ProductDetailsActivity;
+import com.stepin2it.ui.activity.ProductImageActivity;
 import com.stepin2it.ui.adapter.ProductAdapter;
 import com.stepin2it.ui.base.BaseActivity;
 import com.stepin2it.ui.models.ProductInfo;
+import com.stepin2it.utils.IConstants;
 
 import java.util.List;
 
@@ -22,7 +26,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class DashBoardMvpActivity
-        extends BaseActivity implements DashboardMvpView {
+        extends BaseActivity implements DashboardMvpView, ProductAdapter.IProductAdapterClickHandler {
     private ProductAdapter mProductAdapter;
     private int mPosition = RecyclerView.NO_POSITION;
     //Show progress bar while fetching data
@@ -66,7 +70,7 @@ public class DashBoardMvpActivity
         rvProductList.setHasFixedSize(true);
 
         mProductAdapter = new ProductAdapter(DashBoardMvpActivity.this
-                , null, null);
+                , DashBoardMvpActivity.this, null);
         rvProductList.setAdapter(mProductAdapter);
         mDashboardMvpPresenter.getProductInfo();
     }
@@ -86,5 +90,29 @@ public class DashBoardMvpActivity
     @Override
     public void displayError(String message) {
         Toast.makeText(this, "Error : " + message, Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * Implement onItemClick method of IProductAdapterClickHandler interface to view the
+     * details of product
+     *
+     * @param urlString   url of item which is clicked on
+     * @param productInfo ProductInfo object containing details ab out product
+     */
+    @Override
+    public void onItemClick(String urlString, ProductInfo productInfo) {
+        Intent productDetailIntent = new Intent(DashBoardMvpActivity.this, ProductDetailsActivity.class);
+        productDetailIntent.putExtra(IConstants.KEY_PRODUCT_DETAIL_PARCELABLE, productInfo);
+        startActivity(productDetailIntent);
+    }
+
+    @Override
+    public void onImageClick(int index, View view, ProductInfo productInfo) {
+        if (productInfo.getImageList().size() > 0) {
+            String url = productInfo.getFirstImageUrl();
+            Intent imageFileNameIntent = new Intent(DashBoardMvpActivity.this, ProductImageActivity.class);
+            imageFileNameIntent.putExtra(IConstants.KEY_PRODUCT_IMAGE_URL, url);
+            startActivity(imageFileNameIntent);
+        }
     }
 }
