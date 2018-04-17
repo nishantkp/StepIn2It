@@ -24,7 +24,6 @@ import butterknife.ButterKnife;
 public class DashBoardMvpActivity
         extends BaseActivity implements DashboardMvpView {
     private ProductAdapter mProductAdapter;
-    private int mPosition = RecyclerView.NO_POSITION;
     //Show progress bar while fetching data
     @BindView(R.id.pgb_dash_board)
     ProgressBar pgbDashBoard;
@@ -54,7 +53,6 @@ public class DashBoardMvpActivity
         if (getSupportActionBar() != null)
             getSupportActionBar().setTitle(R.string.dashboard_title);
 
-        rvProductList = findViewById(R.id.rv_product_list);
         txvEmptyView.setVisibility(View.GONE);
 
         LinearLayoutManager layoutManager
