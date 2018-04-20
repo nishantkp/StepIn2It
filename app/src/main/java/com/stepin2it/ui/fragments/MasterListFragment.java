@@ -1,4 +1,5 @@
 package com.stepin2it.ui.fragments;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;

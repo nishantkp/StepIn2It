@@ -2,7 +2,6 @@ package com.stepin2it.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -11,7 +10,6 @@ import com.stepin2it.ui.fragments.MasterListFragment;
 import com.stepin2it.ui.models.ProductInfo;
 import com.stepin2it.utils.IConstants;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
@@ -24,9 +22,6 @@ import timber.log.Timber;
 public class DashBoardActivity extends BaseActivity
         implements MasterListFragment.OnItemClickListener {
 
-    @BindView(R.id.tb_dashboard)
-    Toolbar tbDashBoard;
-
     private Disposable mDisposable;
 
     @Override
@@ -37,7 +32,6 @@ public class DashBoardActivity extends BaseActivity
         // Bind view with butter knife library
         ButterKnife.bind(DashBoardActivity.this);
 
-        setSupportActionBar(tbDashBoard);
         if (getSupportActionBar() != null)
             getSupportActionBar().setTitle(R.string.dashboard_title);
     }

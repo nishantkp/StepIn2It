@@ -27,6 +27,6 @@
     </style>
 
     <!-- Dashboard activity theme -->
-    <style name="DashBoardTheme" parent="SplashScreenTheme" />
+    <style name="DashBoardTheme" parent="AppTheme" />
 
 </resources>
