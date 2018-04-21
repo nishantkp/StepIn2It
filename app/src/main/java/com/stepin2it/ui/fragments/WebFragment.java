@@ -1,10 +1,12 @@
 package com.stepin2it.ui.fragments;
 
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
@@ -58,12 +60,20 @@ public class WebFragment extends Fragment {
     }
 
     // Load the web page into web-tab
+    @SuppressLint("ClickableViewAccessibility")
     private void initWebView() {
         WebSettings webSettings = wbvProductUrl.getSettings();
         webSettings.setJavaScriptEnabled(true);
         wbvProductUrl.setWebChromeClient(new MyWebViewClient());
         wbvProductUrl.setWebViewClient(new WebViewClient());
         wbvProductUrl.loadUrl(mUrl);
+        wbvProductUrl.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                view.getParent().requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
     }
 
     private class MyWebViewClient extends WebChromeClient {

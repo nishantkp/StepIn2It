@@ -61,7 +61,6 @@ public class MasterListFragment extends Fragment
         super.onCreate(savedInstanceState);
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
         mDatabaseHelper = DatabaseHelper.getInstance(getActivity());
-
     }
 
     @Override
@@ -157,6 +156,7 @@ public class MasterListFragment extends Fragment
                         getResources().getString(R.string.enable_your_internet_connection),
                         Toast.LENGTH_SHORT).show();
             } else {
+
                 txvEmptyView.setVisibility(View.VISIBLE);
             }
         }

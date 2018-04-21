@@ -2,11 +2,15 @@ package com.stepin2it.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.stepin2it.R;
 import com.stepin2it.ui.fragments.MasterListFragment;
+import com.stepin2it.ui.fragments.ProductInfoFragment;
+import com.stepin2it.ui.fragments.ProductMapFragment;
+import com.stepin2it.ui.fragments.WebFragment;
 import com.stepin2it.ui.models.ProductInfo;
 import com.stepin2it.utils.IConstants;
 
@@ -23,6 +27,7 @@ public class DashBoardActivity extends BaseActivity
         implements MasterListFragment.OnItemClickListener {
 
     private Disposable mDisposable;
+    private boolean tabletMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +39,8 @@ public class DashBoardActivity extends BaseActivity
 
         if (getSupportActionBar() != null)
             getSupportActionBar().setTitle(R.string.dashboard_title);
+
+        tabletMode = findViewById(R.id.two_pan_layout) != null;
     }
 
     @Override
@@ -122,9 +129,27 @@ public class DashBoardActivity extends BaseActivity
 
     @Override
     public void onFragmentItemClick(ProductInfo productInfo) {
-        Intent productDetailIntent = new Intent(DashBoardActivity.this, ProductDetailsActivity.class);
-        productDetailIntent.putExtra(IConstants.KEY_PRODUCT_DETAIL_PARCELABLE, productInfo);
-        startActivity(productDetailIntent);
+        if (tabletMode) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(
+                    R.id.product_info_container,
+                    ProductInfoFragment.newInstance(productInfo))
+                    .commit();
+
+            fragmentManager.beginTransaction().replace(
+                    R.id.location_container,
+                    ProductMapFragment.newInstance(productInfo.getWarehouseLocation()))
+                    .commit();
+
+            fragmentManager.beginTransaction().replace(
+                    R.id.web_view_container,
+                    WebFragment.newInstance(productInfo.getProductWebUrl()))
+                    .commit();
+        } else {
+            Intent productDetailIntent = new Intent(DashBoardActivity.this, ProductDetailsActivity.class);
+            productDetailIntent.putExtra(IConstants.KEY_PRODUCT_DETAIL_PARCELABLE, productInfo);
+            startActivity(productDetailIntent);
+        }
     }
 
     @Override
