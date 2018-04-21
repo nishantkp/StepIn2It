@@ -9,6 +9,9 @@
     <!-- Permission to make a phone call -->
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
+    <!-- External storage -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:name=".Stepin2ItApplication"
         android:allowBackup="true"
